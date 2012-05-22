@@ -7,4 +7,6 @@
 /target
 
 # Imagemagick script
-/src/main/resources/textures/*
+*.ps1
+
+src/main/resources/textures/*.png

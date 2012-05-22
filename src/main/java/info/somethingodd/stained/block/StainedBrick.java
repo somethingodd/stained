@@ -11,24 +11,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package info.somethingodd.stained;
+package info.somethingodd.stained.block;
 
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
-import org.getspout.spoutapi.material.CustomBlock;
+import org.getspout.spoutapi.material.MaterialData;
+import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class Textures {
-    private static Plugin plugin;
-
-    public static void setPlugin(Plugin plugin) {
-        Textures.plugin = plugin;
+public class StainedBrick extends GenericCubeCustomBlock {
+    @Override
+    public int getBlockId() {
+        return MaterialData.brick.getRawId();
     }
 
-    public static Texture get(String key) {
-        return new Texture(plugin, "http://somethingodd.info/textures/" + key + ".png", 16, 16, 64);
+    public StainedBrick(Plugin plugin, String name, Texture texture, int textureId) {
+        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+        setFriction(MaterialData.brick.getFriction());
+        setHardness(MaterialData.brick.getHardness());
+        setLightLevel(MaterialData.brick.getLightLevel());
+        setStepSound(MaterialData.brick.getStepSound());
     }
 }

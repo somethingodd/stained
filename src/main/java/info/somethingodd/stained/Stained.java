@@ -14,38 +14,28 @@
 
 package info.somethingodd.stained;
 
-import info.somethingodd.stained.cobblestone.BlackCobblestone;
-import info.somethingodd.stained.cobblestone.BlueCobblestone;
-import info.somethingodd.stained.cobblestone.BrownCobblestone;
-import org.bukkit.plugin.Plugin;
+import info.somethingodd.stained.block.StainedBrick;
+import info.somethingodd.stained.block.StainedCobblestone;
+import info.somethingodd.stained.block.StainedGlass;
+import info.somethingodd.stained.block.StainedGlowstone;
+import info.somethingodd.stained.block.StainedObsidian;
+import info.somethingodd.stained.block.StainedStone;
+import info.somethingodd.stained.block.StainedStoneBricks;
+import info.somethingodd.stained.block.StainedWood;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
+import org.getspout.spoutapi.material.CustomBlock;
 import org.getspout.spoutapi.material.Item;
 import org.getspout.spoutapi.material.MaterialData;
-import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
 public class Stained extends JavaPlugin {
-    /*public Cyan
-    public Gray
-    public Green
-    public Lightblue
-    public Lightgray
-    public Lime
-    public Magenta
-    public Orange
-    public Pink
-    public Purple
-    public Red
-    public White
-    public Yellow*/
-    
+
     @Override
     public void onEnable() {
         setup();
@@ -56,25 +46,31 @@ public class Stained extends JavaPlugin {
     }
 
     public void setup() {
+        Textures.setPlugin(this);
         String[] colors = new String[]{"Black", "Blue", "Brown", "Cyan", "Gray", "Green", "Lightblue",
                 "Lightgray", "Lime", "Magenta", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
-        String[] blocks = new String[]{"Cobblestone", "Glass", "Glowstone", "Obsidian", "Slab", "Stone", "Wood"};
-        for (String color : colors) {
-            for (String block : blocks) {
-                Texture t = new Texture(this, Textures.get(block.toLowerCase() + "-" + color.toLowerCase()), 16, 16, 64);
-                try {
-                    Class c = Class.forName(color + block);
-                    GenericCubeCustomBlock genericCubeCustomBlock = (GenericCubeCustomBlock) c.getConstructor(Plugin.class).newInstance(this);
-                    makeRecipes(genericCubeCustomBlock, inkFromColor(color));
-                } catch (Exception e) {
-                    getLogger().warning("Couldn't do " + color + block);
-                    e.printStackTrace();
-                }
-            }
+        for (int i = 0; i < colors.length; i++) {
+            String name = colors[i] + " Glowstone";
+            StainedBrick stainedBrick = new StainedBrick(this, colors[i] + " Brick", Textures.get("brick-" + colors[i].toLowerCase()), i) ;
+            makeRecipes(stainedBrick, inkFromColor(colors[i]));
+            StainedCobblestone stainedCobblestone = new StainedCobblestone(this, colors[i] + " Cobblestone", Textures.get("cobblestone-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedCobblestone, inkFromColor(colors[i]));
+            StainedGlass stainedGlass = new StainedGlass(this, colors[i] + " Glass", Textures.get("glass-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedGlass, inkFromColor(colors[i]));
+            StainedGlowstone stainedGlowstone = new StainedGlowstone(this, colors[i] + " Glowstone", Textures.get("glowstone-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedGlowstone, inkFromColor(colors[i]));
+            StainedObsidian stainedObsidian = new StainedObsidian(this, colors[i] + " Obsidian", Textures.get("obsidian-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedObsidian, inkFromColor(colors[i]));
+            StainedStone stainedStone = new StainedStone(this, colors[i] + " Stone", Textures.get("stone-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedStone, inkFromColor(colors[i]));
+            StainedStoneBricks stainedStoneBricks = new StainedStoneBricks(this, colors[i] + " StoneBricks", Textures.get("stonebrick-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedStoneBricks, inkFromColor(colors[i]));
+            StainedWood stainedWood = new StainedWood(this, colors[i] + " Wood", Textures.get("wood-" + colors[i].toLowerCase()), i);
+            makeRecipes(stainedWood, inkFromColor(colors[i]));
         }
     }
 
-    private void makeRecipes(GenericCubeCustomBlock block, Item dye) {
+    private void makeRecipes(CustomBlock block, Item dye) {
         SpoutShapedRecipe spoutShapedRecipe = new SpoutShapedRecipe(new SpoutItemStack(block, 2));
         spoutShapedRecipe.shape("ABA");
         spoutShapedRecipe.setIngredient('A', MaterialData.getBlock(block.getBlockId()));

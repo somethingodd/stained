@@ -28,7 +28,7 @@ public class Textures {
         Textures.plugin = plugin;
     }
 
-    public static Texture get(String key) {
-        return new Texture(plugin, "http://somethingodd.info/textures/" + key + ".png", 16, 16, 64);
+    public static String get(String key) {
+        return "http://somethingodd.info/textures/" + key + ".png";
     }
 }

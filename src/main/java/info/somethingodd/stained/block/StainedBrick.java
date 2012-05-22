@@ -28,8 +28,8 @@ public class StainedBrick extends GenericCubeCustomBlock {
         return MaterialData.brick.getRawId();
     }
 
-    public StainedBrick(Plugin plugin, String name, Texture texture, int textureId) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+    public StainedBrick(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, texture, textureSize);
         setFriction(MaterialData.brick.getFriction());
         setHardness(MaterialData.brick.getHardness());
         setLightLevel(MaterialData.brick.getLightLevel());

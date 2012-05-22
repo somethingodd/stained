@@ -3,4 +3,5 @@ version: ${pom.version}
 author: ${pom.author}
 description: Stained blocks for Spout
 main: info.somethingodd.stained.Stained
+#load: STARTUP
 depend: [Spout]

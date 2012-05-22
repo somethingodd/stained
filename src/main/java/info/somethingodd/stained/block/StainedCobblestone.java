@@ -28,8 +28,8 @@ public class StainedCobblestone extends GenericCubeCustomBlock {
         return MaterialData.cobblestone.getRawId();
     }
 
-    public StainedCobblestone(Plugin plugin, String name, Texture texture, int textureId) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+    public StainedCobblestone(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, texture, textureSize);
         setFriction(MaterialData.cobblestone.getFriction());
         setHardness(MaterialData.cobblestone.getHardness());
         setLightLevel(MaterialData.cobblestone.getLightLevel());

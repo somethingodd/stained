@@ -28,8 +28,8 @@ public class StainedWood extends GenericCubeCustomBlock {
         return MaterialData.wood.getRawId();
     }
 
-    public StainedWood(Plugin plugin, String name, Texture texture, int textureId) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+    public StainedWood(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, texture, textureSize);
         setFriction(MaterialData.wood.getFriction());
         setHardness(MaterialData.wood.getHardness());
         setLightLevel(MaterialData.wood.getLightLevel());

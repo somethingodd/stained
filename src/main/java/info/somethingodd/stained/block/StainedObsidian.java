@@ -28,8 +28,8 @@ public class StainedObsidian extends GenericCubeCustomBlock {
         return MaterialData.obsidian.getRawId();
     }
 
-    public StainedObsidian(Plugin plugin, String name, Texture texture, int textureId) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+    public StainedObsidian(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, texture, textureSize);
         setFriction(MaterialData.obsidian.getFriction());
         setHardness(MaterialData.obsidian.getHardness());
         setLightLevel(MaterialData.obsidian.getLightLevel());

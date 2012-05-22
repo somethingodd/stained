@@ -28,8 +28,8 @@ public class StainedGlass extends GenericCubeCustomBlock {
         return MaterialData.glass.getRawId();
     }
 
-    public StainedGlass(Plugin plugin, String name, Texture texture, int textureId) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
+    public StainedGlass(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, texture, textureSize);
         setFriction(MaterialData.glass.getFriction());
         setHardness(MaterialData.glass.getHardness());
         setLightLevel(MaterialData.glass.getLightLevel());

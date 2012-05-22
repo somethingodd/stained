@@ -33,6 +33,7 @@ public class StainedGlass extends GenericCubeCustomBlock {
         setFriction(MaterialData.glass.getFriction());
         setHardness(MaterialData.glass.getHardness());
         setLightLevel(MaterialData.glass.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.glass.getStepSound());
     }
 }

@@ -33,6 +33,7 @@ public class StainedStoneBricks extends GenericCubeCustomBlock {
         setFriction(MaterialData.stoneBricks.getFriction());
         setHardness(MaterialData.stoneBricks.getHardness());
         setLightLevel(MaterialData.stoneBricks.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.stoneBricks.getStepSound());
     }
 }

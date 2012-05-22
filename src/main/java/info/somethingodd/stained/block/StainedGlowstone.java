@@ -33,6 +33,7 @@ public class StainedGlowstone extends GenericCubeCustomBlock {
         setFriction(MaterialData.glowstoneBlock.getFriction());
         setHardness(MaterialData.glowstoneBlock.getHardness());
         setLightLevel(MaterialData.glowstoneBlock.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.glowstoneBlock.getStepSound());
     }
 }

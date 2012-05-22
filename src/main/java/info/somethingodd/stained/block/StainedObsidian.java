@@ -33,6 +33,7 @@ public class StainedObsidian extends GenericCubeCustomBlock {
         setFriction(MaterialData.obsidian.getFriction());
         setHardness(MaterialData.obsidian.getHardness());
         setLightLevel(MaterialData.obsidian.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.obsidian.getStepSound());
     }
 }

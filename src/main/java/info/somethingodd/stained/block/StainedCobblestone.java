@@ -33,6 +33,7 @@ public class StainedCobblestone extends GenericCubeCustomBlock {
         setFriction(MaterialData.cobblestone.getFriction());
         setHardness(MaterialData.cobblestone.getHardness());
         setLightLevel(MaterialData.cobblestone.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.cobblestone.getStepSound());
     }
 }

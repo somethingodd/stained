@@ -33,6 +33,7 @@ public class StainedWood extends GenericCubeCustomBlock {
         setFriction(MaterialData.wood.getFriction());
         setHardness(MaterialData.wood.getHardness());
         setLightLevel(MaterialData.wood.getLightLevel());
+        setOpaque(MaterialData.glass.isOpaque());
         setStepSound(MaterialData.wood.getStepSound());
     }
 }

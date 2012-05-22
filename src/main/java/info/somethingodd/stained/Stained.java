@@ -63,28 +63,28 @@ public class Stained extends JavaPlugin {
         String[] colors = new String[]{"Black", "Blue", "Brown", "Cyan", "Gray", "Green", "Lightblue",
                 "Lightgray", "Lime", "Magenta", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
         for (String color : colors) {
-            StainedBrick stainedBrick = new StainedBrick(this, colors[i] + " Brick", Textures.get("brick-" + colors[i].toLowerCase()), 16);
+            StainedBrick stainedBrick = new StainedBrick(this, color + " Brick", Textures.get("brick-" + color.toLowerCase()), 16);
             makeRecipes(stainedBrick, MaterialData.brick, inkFromColor(color));
 
-            StainedCobblestone stainedCobblestone = new StainedCobblestone(this, colors[i] + " Cobblestone", Textures.get("cobblestone-" + colors[i].toLowerCase()), 16);
+            StainedCobblestone stainedCobblestone = new StainedCobblestone(this, color + " Cobblestone", Textures.get("cobblestone-" + color.toLowerCase()), 16);
             makeRecipes(stainedCobblestone, MaterialData.cobblestone, inkFromColor(color));
 
-            StainedGlass stainedGlass = new StainedGlass(this, colors[i] + " Glass", Textures.get("glass-" + colors[i].toLowerCase()), 16);
+            StainedGlass stainedGlass = new StainedGlass(this, color + " Glass", Textures.get("glass-" + color.toLowerCase()), 16);
             makeRecipes(stainedGlass, MaterialData.glass, inkFromColor(color));
 
-            StainedGlowstone stainedGlowstone = new StainedGlowstone(this, colors[i] + " Glowstone", Textures.get("glowstone-" + colors[i].toLowerCase()), 16);
+            StainedGlowstone stainedGlowstone = new StainedGlowstone(this, color + " Glowstone", Textures.get("glowstone-" + color.toLowerCase()), 16);
             makeRecipes(stainedGlowstone, MaterialData.glowstoneBlock, inkFromColor(color));
 
-            StainedObsidian stainedObsidian = new StainedObsidian(this, colors[i] + " Obsidian", Textures.get("obsidian-" + colors[i].toLowerCase()), 16);
+            StainedObsidian stainedObsidian = new StainedObsidian(this, color + " Obsidian", Textures.get("obsidian-" + color.toLowerCase()), 16);
             makeRecipes(stainedObsidian, MaterialData.obsidian, inkFromColor(color));
 
-            StainedStone stainedStone = new StainedStone(this, colors[i] + " Stone", Textures.get("stone-" + colors[i].toLowerCase()), 16);
+            StainedStone stainedStone = new StainedStone(this, color + " Stone", Textures.get("stone-" + color.toLowerCase()), 16);
             makeRecipes(stainedStone, MaterialData.stone, inkFromColor(color));
 
-            StainedStoneBricks stainedStoneBricks = new StainedStoneBricks(this, colors[i] + " StoneBricks", Textures.get("stonebrick-" + colors[i].toLowerCase()), 16);
+            StainedStoneBricks stainedStoneBricks = new StainedStoneBricks(this, color + " StoneBricks", Textures.get("stonebrick-" + color.toLowerCase()), 16);
             makeRecipes(stainedStoneBricks, MaterialData.stoneBricks, inkFromColor(color));
 
-            StainedWood stainedWood = new StainedWood(this, colors[i] + " Wood", Textures.get("wood-" + colors[i].toLowerCase()), 16);
+            StainedWood stainedWood = new StainedWood(this, color + " Wood", Textures.get("wood-" + color.toLowerCase()), 16);
             makeRecipes(stainedWood, MaterialData.wood, inkFromColor(color));
         }
     }

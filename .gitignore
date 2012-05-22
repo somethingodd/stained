@@ -1,0 +1,10 @@
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+
+# Maven build files
+/target
+
+# Imagemagick script
+/src/main/resources/textures/*

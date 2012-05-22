@@ -1,0 +1,6 @@
+name: Stained
+version: ${pom.version}
+author: ${pom.author}
+description: Stained blocks for Spout
+main: info.somethingodd.stained.Stained
+depend: [Spout]

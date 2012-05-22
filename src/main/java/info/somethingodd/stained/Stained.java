@@ -28,6 +28,7 @@ import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
+import org.getspout.spoutapi.material.Block;
 import org.getspout.spoutapi.material.CustomBlock;
 import org.getspout.spoutapi.material.Item;
 import org.getspout.spoutapi.material.MaterialData;
@@ -46,98 +47,45 @@ public class Stained extends JavaPlugin {
     public void onDisable() {
     }
 
+    public void makeRecipes(CustomBlock block, Block source, Item ink) {
+        SpoutShapelessRecipe recipe = new SpoutShapelessRecipe(new SpoutItemStack(block, 2));
+        recipe.addIngredient(2, source);
+        recipe.addIngredient(1, ink);
+        SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
+        SpoutShapelessRecipe unrecipe = new SpoutShapelessRecipe(new SpoutItemStack(source, 2));
+        unrecipe.addIngredient(2, block);
+        unrecipe.addIngredient(1, MaterialData.waterBucket);
+        SpoutManager.getMaterialManager().registerSpoutRecipe(unrecipe);
+    }
+
     public void setup() {
         Textures.setPlugin(this);
         String[] colors = new String[]{"Black", "Blue", "Brown", "Cyan", "Gray", "Green", "Lightblue",
                 "Lightgray", "Lime", "Magenta", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
-        for (int i = 0; i < colors.length; i++) {
+        for (String color : colors) {
             StainedBrick stainedBrick = new StainedBrick(this, colors[i] + " Brick", Textures.get("brick-" + colors[i].toLowerCase()), 16);
-            stainedBrick.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("brick-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedBrickRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedBrick, 2));
-            stainedBrickRecipe.addIngredient(2, MaterialData.brick);
-            stainedBrickRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedBrickRecipe);
-            SpoutShapelessRecipe brickRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.brick, 2));
-            brickRecipe.addIngredient(2, stainedBrick);
-            brickRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(brickRecipe);
+            makeRecipes(stainedBrick, MaterialData.brick, inkFromColor(color));
 
             StainedCobblestone stainedCobblestone = new StainedCobblestone(this, colors[i] + " Cobblestone", Textures.get("cobblestone-" + colors[i].toLowerCase()), 16);
-            stainedCobblestone.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("cobblestone-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedCobblestoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedCobblestone, 2));
-            stainedCobblestoneRecipe.addIngredient(2, MaterialData.cobblestone);
-            stainedCobblestoneRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedCobblestoneRecipe);
-            SpoutShapelessRecipe cobblestoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.cobblestone, 2));
-            cobblestoneRecipe.addIngredient(2, stainedCobblestone);
-            cobblestoneRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(cobblestoneRecipe);
+            makeRecipes(stainedCobblestone, MaterialData.cobblestone, inkFromColor(color));
 
             StainedGlass stainedGlass = new StainedGlass(this, colors[i] + " Glass", Textures.get("glass-" + colors[i].toLowerCase()), 16);
-            stainedGlass.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("glass-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedGlassRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedGlass, 2));
-            stainedGlassRecipe.addIngredient(2, MaterialData.glass);
-            stainedGlassRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedGlassRecipe);
-            SpoutShapelessRecipe glassRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.glass, 2));
-            glassRecipe.addIngredient(2, stainedGlass);
-            glassRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(glassRecipe);
+            makeRecipes(stainedGlass, MaterialData.glass, inkFromColor(color));
 
             StainedGlowstone stainedGlowstone = new StainedGlowstone(this, colors[i] + " Glowstone", Textures.get("glowstone-" + colors[i].toLowerCase()), 16);
-            stainedGlowstone.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("glowstone-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedGlowstoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedGlowstone, 2));
-            stainedGlowstoneRecipe.addIngredient(2, MaterialData.glowstoneBlock);
-            stainedGlowstoneRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedGlowstoneRecipe);
-            SpoutShapelessRecipe glowstoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.glowstoneBlock, 2));
-            glowstoneRecipe.addIngredient(2, stainedGlowstone);
-            glowstoneRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(glowstoneRecipe);
-            
+            makeRecipes(stainedGlowstone, MaterialData.glowstoneBlock, inkFromColor(color));
+
             StainedObsidian stainedObsidian = new StainedObsidian(this, colors[i] + " Obsidian", Textures.get("obsidian-" + colors[i].toLowerCase()), 16);
-            stainedObsidian.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("obsidian-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedObsidianRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedObsidian, 2));
-            stainedObsidianRecipe.addIngredient(2, MaterialData.obsidian);
-            stainedObsidianRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedObsidianRecipe);
-            SpoutShapelessRecipe obsidianRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.obsidian, 2));
-            obsidianRecipe.addIngredient(2, stainedObsidian);
-            obsidianRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(obsidianRecipe);
+            makeRecipes(stainedObsidian, MaterialData.obsidian, inkFromColor(color));
 
             StainedStone stainedStone = new StainedStone(this, colors[i] + " Stone", Textures.get("stone-" + colors[i].toLowerCase()), 16);
-            stainedStone.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("stone-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedStoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedStone, 2));
-            stainedStoneRecipe.addIngredient(2, MaterialData.stone);
-            stainedStoneRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedStoneRecipe);
-            SpoutShapelessRecipe stoneRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.stone, 2));
-            stoneRecipe.addIngredient(2, stainedStone);
-            stoneRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stoneRecipe);
+            makeRecipes(stainedStone, MaterialData.stone, inkFromColor(color));
 
             StainedStoneBricks stainedStoneBricks = new StainedStoneBricks(this, colors[i] + " StoneBricks", Textures.get("stonebrick-" + colors[i].toLowerCase()), 16);
-            stainedStoneBricks.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("stonebrick-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedStoneBricksRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedStoneBricks, 2));
-            stainedStoneBricksRecipe.addIngredient(2, MaterialData.stoneBricks);
-            stainedStoneBricksRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedStoneBricksRecipe);
-            SpoutShapelessRecipe stoneBricksRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.stoneBricks, 2));
-            stoneBricksRecipe.addIngredient(2, stainedStoneBricks);
-            stoneBricksRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stoneBricksRecipe);
+            makeRecipes(stainedStoneBricks, MaterialData.stoneBricks, inkFromColor(color));
 
             StainedWood stainedWood = new StainedWood(this, colors[i] + " Wood", Textures.get("wood-" + colors[i].toLowerCase()), 16);
-            stainedWood.setBlockDesign(new GenericCubeBlockDesign(this, Textures.get("wood-" + colors[i].toLowerCase()), 16), i);
-            SpoutShapelessRecipe stainedWoodRecipe = new SpoutShapelessRecipe(new SpoutItemStack(stainedWood, 2));
-            stainedWoodRecipe.addIngredient(2, MaterialData.wood);
-            stainedWoodRecipe.addIngredient(inkFromColor(colors[i]));
-            SpoutManager.getMaterialManager().registerSpoutRecipe(stainedWoodRecipe);
-            SpoutShapelessRecipe woodRecipe = new SpoutShapelessRecipe(new SpoutItemStack(MaterialData.wood, 2));
-            woodRecipe.addIngredient(2, stainedWood);
-            woodRecipe.addIngredient(1, MaterialData.waterBucket);
-            SpoutManager.getMaterialManager().registerSpoutRecipe(woodRecipe);
+            makeRecipes(stainedWood, MaterialData.wood, inkFromColor(color));
         }
     }
 

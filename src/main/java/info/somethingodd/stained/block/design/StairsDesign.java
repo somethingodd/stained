@@ -29,8 +29,6 @@ public class StairsDesign extends GenericBlockDesign {
     }
 
     public StairsDesign(Plugin plugin, Texture texture, int[] textureId) {
-        plugin.getLogger().info("textureId: " + Arrays.toString(textureId));
-        plugin.getLogger().info("subTexture0isNull: " + String.valueOf(null == texture.getSubTexture(0)));
         Quad top = new Quad(0, texture.getSubTexture(textureId[0]));
         // 1.0 1.0 0.0
         // 0.0 1.0 0.0
@@ -131,7 +129,6 @@ public class StairsDesign extends GenericBlockDesign {
         bottom.addVertex(2, 0.0F, 0.0F, 1.0F);
         bottom.addVertex(3, 1.0F, 0.0F, 1.0F);
 
-        plugin.getLogger().info("top is null: " + String.valueOf(null == top));
         setQuad(top);
         setQuad(halftop);
         setQuad(front);

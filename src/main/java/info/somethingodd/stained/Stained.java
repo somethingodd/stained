@@ -16,6 +16,7 @@ package info.somethingodd.stained;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
@@ -73,8 +74,12 @@ public class Stained extends JavaPlugin {
         return Collections.unmodifiableMap(textures);
     }
 
-    protected String getTexture(String key) {
+    protected String getTextureURL(String key) {
         return "http://somethingodd.info/textures/" + key + ".png";
+    }
+
+    protected Texture getTexture(String key) {
+        return new Texture(this, "http://somethingodd.info/textures/" + key + ".png", 16, 16, 16);
     }
 
     public void makeRecipes(Block block, Block source, Item ink) {
@@ -147,17 +152,20 @@ public class Stained extends JavaPlugin {
         
         for (Color color : colors) {
             for (String name : blocks.keySet()) {
-                getLogger().info("Adding " + color.getName() + " " + name);
-                materials.put(color.getName() + " " + name, new Material(this, color.getName() + name, textures.get(name), color, blocks.get(name)));
+                String fullName = color.getName() + " " + name;
+                getLogger().info("Adding " + fullName);
+                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, blocks.get(name)));
             }
             for (String name : slabs.keySet()) {
+                String fullName = color.getName() + " " + name;
                 getLogger().info("Adding " + color.getName() + " " + name);
-                materials.put(color.getName() + " " + name, new Material(this, color.getName() + name, textures.get(name), color, slabs.get(name), Material.MaterialType.SLAB));
+                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, slabs.get(name), Material.MaterialType.SLAB));
             }
-            /*for (String name : stairs.keySet()) {
-                getLogger().info("Adding " + color.getName() + " " + name);
-                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, stairs.get(name), Material.MaterialType.STAIRS));
-            }*/
+            for (String name : stairs.keySet()) {
+                String fullName = color.getName() + " " + name;
+                //getLogger().info("Adding " + fullName);
+                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, stairs.get(name), Material.MaterialType.STAIRS));
+            }
         }
         for (Material material : materials.values()) {
             makeRecipes(material.getBlock(), material.getSourceBlock(), material.getColor().getItem());

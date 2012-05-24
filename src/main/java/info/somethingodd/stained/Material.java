@@ -45,7 +45,7 @@ public class Material implements Cloneable {
             this.color = color;
             this.sourceBlock = sourceBlock;
             this.materialType = materialType;
-            texture = new Texture(plugin, ((Stained) plugin).getTexture(getFileName() + "-" + getColor().getFileName()), 16, 16, 16);
+            texture = new Texture(plugin, fileName, 16, 16, 16);
             switch (materialType) {
                 case BLOCK:
                     block = new CubeBlock(plugin, name, texture, sourceBlock);

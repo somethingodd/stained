@@ -52,8 +52,8 @@ public class Material implements Cloneable {
                 block = new StainedBlock(plugin, name, fileName + "-" + color.getFileName(), 16, sourceBlock);
                 break;
             case SLAB:
-                GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-                GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+                GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+                GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
                 block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), top);
                 block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), bottom);
                 break;

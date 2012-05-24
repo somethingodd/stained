@@ -67,10 +67,10 @@ public class StairsDesign extends GenericBlockDesign {
         // 0.0 0.5 1.0
         // 0.0 0.0 1.0
         // 1.0 0.0 1.0
-        halftop.addVertex(0, 1.0F, 0.5F, 1.0F);
-        halftop.addVertex(1, 0.0F, 0.5F, 1.0F);
-        halftop.addVertex(2, 0.0F, 0.0F, 1.0F);
-        halftop.addVertex(3, 1.0F, 0.0F, 1.0F);
+        halffront.addVertex(0, 1.0F, 0.5F, 1.0F);
+        halffront.addVertex(1, 0.0F, 0.5F, 1.0F);
+        halffront.addVertex(2, 0.0F, 0.0F, 1.0F);
+        halffront.addVertex(3, 1.0F, 0.0F, 1.0F);
 
         Quad bottom = new Quad(4, texture);
         // 1.0 0.0 0.0

@@ -90,7 +90,7 @@ public class Stained extends JavaPlugin {
         return Collections.unmodifiableMap(textures);
     }
 
-    private String getTexture(String key) {
+    protected String getTexture(String key) {
         return "http://somethingodd.info/textures/" + key + ".png";
     }
 

@@ -18,6 +18,7 @@ import org.getspout.spoutapi.block.design.GenericBlockDesign;
 import org.getspout.spoutapi.block.design.Quad;
 import org.getspout.spoutapi.block.design.SubTexture;
 import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.block.design.Vertex;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)

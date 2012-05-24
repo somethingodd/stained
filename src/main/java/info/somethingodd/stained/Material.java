@@ -13,16 +13,12 @@
  */
 package info.somethingodd.stained;
 
-import info.somethingodd.stained.block.StainedBlock;
-import info.somethingodd.stained.block.design.StairsDesign;
+import info.somethingodd.stained.block.CubeBlock;
+import info.somethingodd.stained.block.SlabBlock;
+import info.somethingodd.stained.block.StairsBlock;
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.MaterialData;
-import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
-import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
-import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
@@ -49,28 +45,20 @@ public class Material implements Cloneable {
             this.color = color;
             this.sourceBlock = sourceBlock;
             this.materialType = materialType;
-            texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
+            texture = new Texture(plugin, ((Stained) plugin).getTexture(getFileName() + "-" + getColor().getFileName()), 16, 16, 16);
             switch (materialType) {
                 case BLOCK:
                     //GenericCuboidBlockDesign design = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                     //block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), design);
-                    block = new StainedBlock(plugin, name, getFileName() + "-" + getColor().getFileName(), 16, sourceBlock);
+                    block = new CubeBlock(plugin, name, texture, sourceBlock);
                     break;
                 case SLAB:
-                    //GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-                    //GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-                    GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-                    GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-                    block = new GenericCustomBlock(plugin, name + " (top)", sourceBlock.isOpaque(), top);
-                    block.setFriction(sourceBlock.getFriction());
-                    block.setHardness(sourceBlock.getHardness());
-                    block.setLightLevel(sourceBlock.getLightLevel());
-                    block.setOpaque(sourceBlock.isOpaque());
-                    block.setStepSound(sourceBlock.getStepSound());
-                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), bottom);
+                    //block = new GenericCuboidCustomBlock(plugin, name, sourceBlock.isOpaque(), new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
+                    block = new SlabBlock(plugin, name, texture, sourceBlock);
                     break;
                 case STAIRS:
-                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture));
+                    //block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture), true);
+                    block = new StairsBlock(plugin, name, texture, sourceBlock);
                     break;
             }
             block.setFriction(sourceBlock.getFriction());

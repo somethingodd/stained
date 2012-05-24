@@ -13,24 +13,29 @@
  */
 package info.somethingodd.stained.block;
 
+import info.somethingodd.stained.block.design.StairsDesign;
 import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.MaterialData;
-import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class StainedBlock extends GenericCubeCustomBlock {
+public class StairsBlock extends GenericCustomBlock {
     private Block sourceBlock;
 
     @Override
     public int getBlockId() {
-        return sourceBlock.getRawId();
+        return sourceBlock.getRawId();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public StainedBlock(Plugin plugin, String name, String texture, int textureSize, Block sourceBlock) {
-        super(plugin, name, texture, textureSize);
+    public StairsBlock(Plugin plugin, String name, Texture texture, Block sourceBlock) {
+        this(plugin, name, texture, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, sourceBlock);
+    }
+
+    public StairsBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
+        super(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture), true);
         this.sourceBlock = sourceBlock;
         setFriction(sourceBlock.getFriction());
         setHardness(sourceBlock.getHardness());

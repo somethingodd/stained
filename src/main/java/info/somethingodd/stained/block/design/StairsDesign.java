@@ -16,22 +16,18 @@ package info.somethingodd.stained.block.design;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.block.design.GenericBlockDesign;
 import org.getspout.spoutapi.block.design.Quad;
-import org.getspout.spoutapi.block.design.SubTexture;
 import org.getspout.spoutapi.block.design.Texture;
-import org.getspout.spoutapi.block.design.Vertex;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
 public class StairsDesign extends GenericBlockDesign {
     public StairsDesign(Plugin plugin, Texture texture) {
-        setBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
-        setQuadNumber(10);
-        setTexture(plugin, texture);
-        setMinBrightness(0);
-        setMaxBrightness(1);
+        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    }
 
-        Quad top = new Quad(0, texture.getSubTexture(0));
+    public StairsDesign(Plugin plugin, Texture texture, int[] textureId) {
+        Quad top = new Quad(0, texture.getSubTexture(textureId[0]));
         // 1.0 1.0 0.0
         // 0.0 1.0 0.0
         // 0.0 1.0 0.5
@@ -41,7 +37,7 @@ public class StairsDesign extends GenericBlockDesign {
         top.addVertex(2, 0.0F, 1.0F, 0.5F);
         top.addVertex(3, 1.0F, 1.0F, 0.5F);
 
-        Quad halftop = new Quad(1, texture.getSubTexture(0));
+        Quad halftop = new Quad(1, texture.getSubTexture(textureId[1]));
         // 1.0 0.5 0.5
         // 0.0 0.5 0.5
         // 0.0 0.5 1.0
@@ -51,7 +47,7 @@ public class StairsDesign extends GenericBlockDesign {
         halftop.addVertex(2, 0.0F, 0.5F, 1.0F);
         halftop.addVertex(3, 1.0F, 0.5F, 1.0F);
 
-        Quad front = new Quad(2, texture.getSubTexture(0));
+        Quad front = new Quad(2, texture.getSubTexture(textureId[2]));
         // 1.0 1.0 0.5
         // 0.0 1.0 0.5
         // 0.0 0.5 0.5
@@ -61,7 +57,7 @@ public class StairsDesign extends GenericBlockDesign {
         front.addVertex(2, 0.0F, 0.5F, 0.5F);
         front.addVertex(3, 1.0F, 0.5F, 0.5F);
 
-        Quad halffront = new Quad(3, texture.getSubTexture(0));
+        Quad halffront = new Quad(3, texture.getSubTexture(textureId[3]));
         // 1.0 0.5 1.0
         // 0.0 0.5 1.0
         // 0.0 0.0 1.0
@@ -71,27 +67,7 @@ public class StairsDesign extends GenericBlockDesign {
         halffront.addVertex(2, 0.0F, 0.0F, 1.0F);
         halffront.addVertex(3, 1.0F, 0.0F, 1.0F);
 
-        Quad bottom = new Quad(4, texture.getSubTexture(0));
-        // 1.0 0.0 0.0
-        // 0.0 0.0 0.0
-        // 0.0 0.0 1.0
-        // 1.0 0.0 1.0
-        bottom.addVertex(0, 1.0F, 0.0F, 0.0F);
-        bottom.addVertex(1, 0.0F, 0.0F, 0.0F);
-        bottom.addVertex(2, 0.0F, 0.0F, 1.0F);
-        bottom.addVertex(3, 1.0F, 0.0F, 1.0F);
-
-        Quad back = new Quad(5, texture.getSubTexture(0));
-        // 1.0 1.0 0.0
-        // 0.0 1.0 0.0
-        // 0.0 0.0 0.0
-        // 1.0 0.0 0.0
-        back.addVertex(0, 1.0F, 1.0F, 0.0F);
-        back.addVertex(1, 0.0F, 1.0F, 0.0F);
-        back.addVertex(2, 0.0F, 0.0F, 0.0F);
-        back.addVertex(3, 1.0F, 0.0F, 0.0F);
-
-        Quad left = new Quad(6, texture.getSubTexture(0));
+        Quad left = new Quad(6, texture.getSubTexture(textureId[4]));
         // 1.0 1.0 0.5
         // 1.0 1.0 0.0
         // 1.0 0.5 0.0
@@ -101,7 +77,7 @@ public class StairsDesign extends GenericBlockDesign {
         left.addVertex(2, 1.0F, 0.5F, 0.0F);
         left.addVertex(3, 1.0F, 0.5F, 0.5F);
 
-        Quad halfleft = new Quad(7, texture.getSubTexture(0));
+        Quad halfleft = new Quad(7, texture.getSubTexture(textureId[5]));
         // 1.0 0.5 1.0
         // 1.0 0.5 0.0
         // 1.0 0.0 0.0
@@ -111,7 +87,7 @@ public class StairsDesign extends GenericBlockDesign {
         halfleft.addVertex(2, 1.0F, 0.0F, 0.0F);
         halfleft.addVertex(3, 1.0F, 0.0F, 1.0F);
 
-        Quad right = new Quad(8, texture.getSubTexture(0));
+        Quad right = new Quad(8, texture.getSubTexture(textureId[6]));
         // 0.0 1.0 0.5
         // 0.0 1.0 0.0
         // 0.0 0.5 0.0
@@ -121,7 +97,7 @@ public class StairsDesign extends GenericBlockDesign {
         right.addVertex(2, 0.0F, 0.5F, 0.0F);
         right.addVertex(3, 0.0F, 0.5F, 0.5F);
 
-        Quad halfright = new Quad(9, texture.getSubTexture(0));
+        Quad halfright = new Quad(9, texture.getSubTexture(textureId[7]));
         // 0.0 0.5 1.0
         // 0.0 0.5 0.0
         // 0.0 0.0 0.0
@@ -130,6 +106,26 @@ public class StairsDesign extends GenericBlockDesign {
         halfright.addVertex(1, 0.0F, 0.5F, 0.0F);
         halfright.addVertex(2, 0.0F, 0.0F, 0.0F);
         halfright.addVertex(3, 0.0F, 0.0F, 1.0F);
+
+        Quad back = new Quad(5, texture.getSubTexture(textureId[8]));
+        // 1.0 1.0 0.0
+        // 0.0 1.0 0.0
+        // 0.0 0.0 0.0
+        // 1.0 0.0 0.0
+        back.addVertex(0, 1.0F, 1.0F, 0.0F);
+        back.addVertex(1, 0.0F, 1.0F, 0.0F);
+        back.addVertex(2, 0.0F, 0.0F, 0.0F);
+        back.addVertex(3, 1.0F, 0.0F, 0.0F);
+
+        Quad bottom = new Quad(4, texture.getSubTexture(textureId[9]));
+        // 1.0 0.0 0.0
+        // 0.0 0.0 0.0
+        // 0.0 0.0 1.0
+        // 1.0 0.0 1.0
+        bottom.addVertex(0, 1.0F, 0.0F, 0.0F);
+        bottom.addVertex(1, 0.0F, 0.0F, 0.0F);
+        bottom.addVertex(2, 0.0F, 0.0F, 1.0F);
+        bottom.addVertex(3, 1.0F, 0.0F, 1.0F);
 
         setQuad(top);
         setQuad(halftop);

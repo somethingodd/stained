@@ -14,24 +14,12 @@
 
 package info.somethingodd.stained;
 
-import info.somethingodd.stained.block.StainedBrick;
-import info.somethingodd.stained.block.StainedCobblestone;
-import info.somethingodd.stained.block.StainedGlass;
-import info.somethingodd.stained.block.StainedGlowstone;
-import info.somethingodd.stained.block.StainedObsidian;
-import info.somethingodd.stained.block.StainedStone;
-import info.somethingodd.stained.block.StainedStoneBricks;
-import info.somethingodd.stained.block.StainedWood;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.block.design.BlockDesign;
-import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
-import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.CustomBlock;
 import org.getspout.spoutapi.material.Item;
 import org.getspout.spoutapi.material.MaterialData;
 

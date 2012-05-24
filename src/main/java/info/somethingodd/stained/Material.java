@@ -48,16 +48,12 @@ public class Material implements Cloneable {
             texture = new Texture(plugin, ((Stained) plugin).getTexture(getFileName() + "-" + getColor().getFileName()), 16, 16, 16);
             switch (materialType) {
                 case BLOCK:
-                    //GenericCuboidBlockDesign design = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                    //block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), design);
                     block = new CubeBlock(plugin, name, texture, sourceBlock);
                     break;
                 case SLAB:
-                    //block = new GenericCuboidCustomBlock(plugin, name, sourceBlock.isOpaque(), new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
                     block = new SlabBlock(plugin, name, texture, sourceBlock);
                     break;
                 case STAIRS:
-                    //block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture), true);
                     block = new StairsBlock(plugin, name, texture, sourceBlock);
                     break;
             }

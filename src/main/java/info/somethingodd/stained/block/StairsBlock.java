@@ -35,7 +35,7 @@ public class StairsBlock extends GenericCustomBlock {
     }
 
     public StairsBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture), true);
+        super(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture, textureId), true);
         this.sourceBlock = sourceBlock;
         setFriction(sourceBlock.getFriction());
         setHardness(sourceBlock.getHardness());

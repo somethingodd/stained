@@ -13,10 +13,8 @@
  */
 package info.somethingodd.stained.block;
 
-import info.somethingodd.stained.block.design.StairsDesign;
-import org.bukkit.World;
+import info.somethingodd.stained.block.design.SlabDesign;
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
 import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
@@ -37,7 +35,7 @@ public class SlabBlock extends GenericCuboidCustomBlock {
     }
 
     public SlabBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, sourceBlock.isOpaque(), new GenericCuboidBlockDesign(plugin, texture, textureId, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
+        super(plugin, name, new SlabDesign(plugin, texture, textureId));
         this.sourceBlock = sourceBlock;
         setFriction(sourceBlock.getFriction());
         setHardness(sourceBlock.getHardness());

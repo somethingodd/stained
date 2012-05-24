@@ -131,6 +131,7 @@ public class StairsDesign extends GenericBlockDesign {
         bottom.addVertex(2, 0.0F, 0.0F, 1.0F);
         bottom.addVertex(3, 1.0F, 0.0F, 1.0F);
 
+        plugin.getLogger().info("top is null: " + String.valueOf(null == top));
         setQuad(top);
         setQuad(halftop);
         setQuad(front);

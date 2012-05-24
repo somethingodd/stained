@@ -57,11 +57,6 @@ public class Material implements Cloneable {
                     block = new StairsBlock(plugin, name, texture, sourceBlock);
                     break;
             }
-            block.setFriction(sourceBlock.getFriction());
-            block.setHardness(sourceBlock.getHardness());
-            block.setLightLevel(sourceBlock.getLightLevel());
-            block.setOpaque(sourceBlock.isOpaque());
-            block.setStepSound(sourceBlock.getStepSound());
         } catch (Exception e) {
             plugin.getLogger().severe("Failure: " + this.toString());
             throw new ExceptionInInitializerError(e);

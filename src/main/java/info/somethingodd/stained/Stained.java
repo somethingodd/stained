@@ -35,11 +35,10 @@ import java.util.Set;
 public class Stained extends JavaPlugin {
     private final Map<String, Block> blocks = new HashMap<String, Block>();
     private final Set<Color> colors = new HashSet<Color>();
-    private final Set<Material> materials = new HashSet<Material>();
     private final Map<String, Block> slabs = new HashMap<String, Block>();
     private final Map<String, Block> stairs = new HashMap<String, Block>();
     private final Map<String, String> textures = new HashMap<String, String>();
-    private final Map<String, Material> materials2 = new HashMap<String, Material>();
+    private final Map<String, Material> materials = new HashMap<String, Material>();
 
     @Override
     public void onEnable() {
@@ -58,12 +57,8 @@ public class Stained extends JavaPlugin {
         return Collections.unmodifiableSet(colors);
     }
 
-    public Set<Material> getMaterials() {
-        return Collections.unmodifiableSet(materials);
-    }
-
-    public Map<String, Material> getMaterials2() {
-        return Collections.unmodifiableMap(materials2);
+    public Map<String, Material> getMaterials() {
+        return Collections.unmodifiableMap(materials);
     }
 
     public Map<String, Block> getSlabs() {
@@ -153,18 +148,18 @@ public class Stained extends JavaPlugin {
         for (Color color : colors) {
             for (String name : blocks.keySet()) {
                 getLogger().info("Adding " + color.getName() + " " + name);
-                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, blocks.get(name)));
+                materials.put(color.getName() + " " + name, new Material(this, color.getName() + name, textures.get(name), color, blocks.get(name)));
             }
             for (String name : slabs.keySet()) {
                 getLogger().info("Adding " + color.getName() + " " + name);
-                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, slabs.get(name), Material.MaterialType.SLAB));
+                materials.put(color.getName() + " " + name, new Material(this, color.getName() + name, textures.get(name), color, slabs.get(name), Material.MaterialType.SLAB));
             }
             /*for (String name : stairs.keySet()) {
                 getLogger().info("Adding " + color.getName() + " " + name);
                 materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, stairs.get(name), Material.MaterialType.STAIRS));
             }*/
         }
-        for (Material material : materials2.values()) {
+        for (Material material : materials.values()) {
             makeRecipes(material.getBlock(), material.getSourceBlock(), material.getColor().getItem());
         }
     }

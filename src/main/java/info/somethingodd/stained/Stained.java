@@ -154,17 +154,17 @@ public class Stained extends JavaPlugin {
             for (String name : blocks.keySet()) {
                 String fullName = color.getName() + " " + name;
                 getLogger().info("Adding " + fullName);
-                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, blocks.get(name)));
+                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, blocks.get(name)));
             }
             for (String name : slabs.keySet()) {
                 String fullName = color.getName() + " " + name;
                 getLogger().info("Adding " + color.getName() + " " + name);
-                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, slabs.get(name), Material.MaterialType.SLAB));
+                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, slabs.get(name), Material.MaterialType.SLAB));
             }
             for (String name : stairs.keySet()) {
                 String fullName = color.getName() + " " + name;
                 //getLogger().info("Adding " + fullName);
-                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getName()), color, stairs.get(name), Material.MaterialType.STAIRS));
+                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, stairs.get(name), Material.MaterialType.STAIRS));
             }
         }
         for (Material material : materials.values()) {

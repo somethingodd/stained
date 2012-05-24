@@ -69,8 +69,8 @@ public class Material implements Cloneable {
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ExceptionInInitializerError("Failure: name(" + name + "), fileName(" + fileName + "), color(" + color.toString() + "), sourceBlock(" + sourceBlock.toString() + "), materialType(" + materialType.toString() + ")");
+            plugin.getLogger().severe("Failure: name(" + name + "), fileName(" + fileName + "), color(" + color.toString() + "), sourceBlock(" + sourceBlock.toString() + "), materialType(" + materialType.toString() + ")");
+            throw new ExceptionInInitializerError(e);
         }
     }
 

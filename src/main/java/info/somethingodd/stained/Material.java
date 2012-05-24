@@ -41,29 +41,36 @@ public class Material implements Cloneable {
     }
 
     public Material(Plugin plugin, String name, String fileName, Color color, Block sourceBlock, MaterialType materialType) {
-        this.plugin = plugin;
-        this.name = name;
-        this.fileName = fileName;
-        this.color = color;
-        this.sourceBlock = sourceBlock;
-        this.materialType = materialType;
-        switch (materialType) {
-            case BLOCK:
-                texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
-                block = new StainedBlock(plugin, name, getFileName() + "-" + getColor().getFileName(), 16, sourceBlock);
-                break;
-            case SLAB:
-                //texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 32, 16, 16);
-                texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
-                GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-                GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-                block = new GenericCustomBlock(plugin, name + " (top)", sourceBlock.isOpaque(), top);
-                block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), bottom);
-                break;
-            case STAIRS:
-                texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
-                block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(texture));
-                break;
+        try {
+            this.plugin = plugin;
+            this.name = name;
+            this.fileName = fileName;
+            this.color = color;
+            this.sourceBlock = sourceBlock;
+            this.materialType = materialType;
+            switch (materialType) {
+                case BLOCK:
+                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
+                    block = new StainedBlock(plugin, name, getFileName() + "-" + getColor().getFileName(), 16, sourceBlock);
+                    break;
+                case SLAB:
+                    //texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 32, 16, 16);
+                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
+                    //GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+                    //GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+                    GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+                    GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+                    block = new GenericCustomBlock(plugin, name + " (top)", sourceBlock.isOpaque(), top);
+                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), bottom);
+                    break;
+                case STAIRS:
+                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
+                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(texture));
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError("Failure: name(" + name + "), fileName(" + fileName + "), color(" + color.toString() + "), sourceBlock(" + sourceBlock.toString() + "), materialType(" + materialType.toString() + ")");
         }
     }
 
@@ -100,6 +107,17 @@ public class Material implements Cloneable {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Material{");
+        sb.append("name: \"").append(name).append("\", ");
+        sb.append("fileName: \"").append(fileName).append("\", ");
+        sb.append("color: ").append(color.toString()).append(", ");
+        sb.append("sourceBlock: ").append(sourceBlock.toString()).append(", ");
+        sb.append("materialType: ").append(materialType.toString()).append("}");
+        return sb.toString();
+    }
+
+    @Override
     public int hashCode() {
         return name.hashCode() + fileName.hashCode() + sourceBlock.hashCode();
     }
@@ -121,6 +139,11 @@ public class Material implements Cloneable {
     public enum MaterialType {
         BLOCK,
         SLAB,
-        STAIRS
+        STAIRS;
+
+        @Override
+        public String toString() {
+            return "MaterialType{" + this.name() + "}";
+        }
     }
 }

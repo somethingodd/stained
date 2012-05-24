@@ -42,6 +42,15 @@ public class Color implements Cloneable {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Color{");
+        sb.append("name: \"").append(name).append("\", ");
+        sb.append("fileName: \"").append(fileName).append("\", ");
+        sb.append("item: ").append(item.toString()).append("}");
+        return sb.toString();
+    }
+
+    @Override
     public int hashCode() {
         return name.hashCode() + fileName.hashCode() + item.hashCode();
     }

@@ -24,7 +24,9 @@ import info.somethingodd.stained.block.StainedStoneBricks;
 import info.somethingodd.stained.block.StainedWood;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.block.design.BlockDesign;
 import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
+import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
@@ -33,10 +35,23 @@ import org.getspout.spoutapi.material.CustomBlock;
 import org.getspout.spoutapi.material.Item;
 import org.getspout.spoutapi.material.MaterialData;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
 public class Stained extends JavaPlugin {
+    private final Map<String, Block> blocks = new HashMap<String, Block>();
+    private final Set<Color> colors = new HashSet<Color>();
+    private final Set<Material> materials = new HashSet<Material>();
+    private final Map<String, Block> slabs = new HashMap<String, Block>();
+    private final Map<String, Block> stairs = new HashMap<String, Block>();
+    private final Map<String, String> textures = new HashMap<String, String>();
+    private final Map<String, Material> materials2 = new HashMap<String, Material>();
 
     @Override
     public void onEnable() {
@@ -47,80 +62,119 @@ public class Stained extends JavaPlugin {
     public void onDisable() {
     }
 
-    public void makeRecipes(CustomBlock block, Block source, Item ink) {
-        SpoutShapelessRecipe recipe = new SpoutShapelessRecipe(new SpoutItemStack(block, 2));
-        recipe.addIngredient(2, source);
-        recipe.addIngredient(1, ink);
+    public Map<String, Block> getBlocks() {
+        return Collections.unmodifiableMap(blocks);
+    }
+
+    public Set<Color> getColors() {
+        return Collections.unmodifiableSet(colors);
+    }
+
+    public Set<Material> getMaterials() {
+        return Collections.unmodifiableSet(materials);
+    }
+
+    public Map<String, Material> getMaterials2() {
+        return Collections.unmodifiableMap(materials2);
+    }
+
+    public Map<String, Block> getSlabs() {
+        return Collections.unmodifiableMap(slabs);
+    }
+
+    public Map<String, Block> getStairs() {
+        return Collections.unmodifiableMap(stairs);
+    }
+
+    public Map<String, String> getTextures() {
+        return Collections.unmodifiableMap(textures);
+    }
+
+    private String getTexture(String key) {
+        return "http://somethingodd.info/textures/" + key + ".png";
+    }
+
+    public void makeRecipes(Block block, Block source, Item ink) {
+        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(block, 2));
+        recipe.shape("ABA");
+        recipe.setIngredient('A', source);
+        recipe.setIngredient('B', ink);
         SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
-        SpoutShapelessRecipe unrecipe = new SpoutShapelessRecipe(new SpoutItemStack(source, 2));
-        unrecipe.addIngredient(2, block);
+        SpoutShapelessRecipe unrecipe = new SpoutShapelessRecipe(new SpoutItemStack(source, 1));
+        unrecipe.addIngredient(1, block);
         unrecipe.addIngredient(1, MaterialData.waterBucket);
         SpoutManager.getMaterialManager().registerSpoutRecipe(unrecipe);
     }
 
     public void setup() {
-        Textures.setPlugin(this);
-        String[] colors = new String[]{"Black", "Blue", "Brown", "Cyan", "Gray", "Green", "Lightblue",
-                "Lightgray", "Lime", "Magenta", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
-        for (String color : colors) {
-            StainedBrick stainedBrick = new StainedBrick(this, color + " Brick", Textures.get("brick-" + color.toLowerCase()), 16);
-            makeRecipes(stainedBrick, MaterialData.brick, inkFromColor(color));
+        // Inks
+        colors.add(new Color("Black", "black", MaterialData.inkSac));
+        colors.add(new Color("Blue", "blue", MaterialData.lapisLazuli));
+        colors.add(new Color("Brown", "brown", MaterialData.cocoaBeans));
+        colors.add(new Color("Cyan", "cyan", MaterialData.cyanDye));
+        colors.add(new Color("Gray", "gray", MaterialData.grayDye));
+        colors.add(new Color("Green", "green", MaterialData.cactusGreen));
+        colors.add(new Color("Light Blue", "lightblue", MaterialData.lightBlueDye));
+        colors.add(new Color("Light Gray", "lightgray", MaterialData.lightGrayDye));
+        colors.add(new Color("Lime", "lime", MaterialData.limeDye));
+        colors.add(new Color("Magenta", "magenta", MaterialData.magentaDye));
+        colors.add(new Color("Orange", "orange", MaterialData.orangeDye));
+        colors.add(new Color("Pink", "pink", MaterialData.pinkDye));
+        colors.add(new Color("Purple", "purple", MaterialData.purpleDye));
+        colors.add(new Color("Red", "red", MaterialData.roseRed));
+        colors.add(new Color("White", "white", MaterialData.boneMeal));
+        colors.add(new Color("Yellow", "yellow", MaterialData.dandelionYellow));
 
-            StainedCobblestone stainedCobblestone = new StainedCobblestone(this, color + " Cobblestone", Textures.get("cobblestone-" + color.toLowerCase()), 16);
-            makeRecipes(stainedCobblestone, MaterialData.cobblestone, inkFromColor(color));
+        // Blocks
+        blocks.put("Brick", MaterialData.brick);
+        blocks.put("Cobblestone", MaterialData.cobblestone);
+        blocks.put("Glass", MaterialData.glass);
+        blocks.put("Glowstone", MaterialData.glowstoneBlock);
+        blocks.put("Obsidian", MaterialData.obsidian);
+        blocks.put("Stone", MaterialData.stone);
+        blocks.put("Stone Brick", MaterialData.stoneBricks);
+        blocks.put("Wood", MaterialData.wood);
 
-            StainedGlass stainedGlass = new StainedGlass(this, color + " Glass", Textures.get("glass-" + color.toLowerCase()), 16);
-            makeRecipes(stainedGlass, MaterialData.glass, inkFromColor(color));
+        slabs.put("Cobblestone Slab", MaterialData.cobblestoneSlab);
+        slabs.put("Stone Brick Slab", MaterialData.stoneBrickSlab);
+        slabs.put("Stone Slab", MaterialData.stoneSlab);
+        slabs.put("Wooden Slab", MaterialData.woodenSlab);
 
-            StainedGlowstone stainedGlowstone = new StainedGlowstone(this, color + " Glowstone", Textures.get("glowstone-" + color.toLowerCase()), 16);
-            makeRecipes(stainedGlowstone, MaterialData.glowstoneBlock, inkFromColor(color));
+        stairs.put("Cobblestone Stairs", MaterialData.cobblestoneStairs);
+        stairs.put("Stone Brick Stairs", MaterialData.stoneBrickStairs);
+        stairs.put("Wooden Stairs", MaterialData.woodenStairs);
 
-            StainedObsidian stainedObsidian = new StainedObsidian(this, color + " Obsidian", Textures.get("obsidian-" + color.toLowerCase()), 16);
-            makeRecipes(stainedObsidian, MaterialData.obsidian, inkFromColor(color));
-
-            StainedStone stainedStone = new StainedStone(this, color + " Stone", Textures.get("stone-" + color.toLowerCase()), 16);
-            makeRecipes(stainedStone, MaterialData.stone, inkFromColor(color));
-
-            StainedStoneBricks stainedStoneBricks = new StainedStoneBricks(this, color + " StoneBricks", Textures.get("stonebrick-" + color.toLowerCase()), 16);
-            makeRecipes(stainedStoneBricks, MaterialData.stoneBricks, inkFromColor(color));
-
-            StainedWood stainedWood = new StainedWood(this, color + " Wood", Textures.get("wood-" + color.toLowerCase()), 16);
-            makeRecipes(stainedWood, MaterialData.wood, inkFromColor(color));
+        // Textures - Blocks
+        textures.put("Brick", "brick");
+        textures.put("Cobblestone", "cobblestone");
+        textures.put("Cooblestone Slab", "cobblestone");
+        textures.put("Cooblestone Stairs", "cobblestone");
+        textures.put("Glass", "glass");
+        textures.put("Glowstone", "glowstone");
+        textures.put("Obsidian", "obsidian");
+        textures.put("Stone", "stone");
+        textures.put("Stone Brick", "stonebrick");
+        textures.put("Stone Brick Slab", "stonebrick");
+        textures.put("Stone Brick Stairs", "stonebrick");
+        textures.put("Stone Slab", "stone");
+        textures.put("Stone Stairs", "stone");
+        textures.put("Wood", "wood");
+        textures.put("Wooden Slab", "wood");
+        textures.put("Wooden Stairs", "wood");
+        
+        for (Color color : colors) {
+            for (String name : blocks.keySet()) {
+                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, blocks.get(name)));
+            }
+            for (String name : slabs.keySet()) {
+                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, blocks.get(name), Material.MaterialType.SLAB));
+            }
+            for (String name : stairs.keySet()) {
+                materials2.put(color.getName() + " " + name, new Material(this, name, textures.get(name), color, blocks.get(name), Material.MaterialType.STAIRS));
+            }
         }
-    }
-
-    public Item inkFromColor(String color) {
-        if ("Blue".equals(color)) {
-            return MaterialData.lapisLazuli;
-        } else if ("Brown".equals(color)) {
-            return MaterialData.cocoaBeans;
-        } else if ("Cyan".equals(color)) {
-            return MaterialData.cyanDye;
-        } else if ("Gray".equals(color)) {
-            return MaterialData.grayDye;
-        } else if ("Green".equals(color)) {
-            return MaterialData.cactusGreen;
-        } else if ("Lightblue".equals(color)) {
-            return MaterialData.lightBlueDye;
-        } else if ("Lightgray".equals(color)) {
-            return MaterialData.lightGrayDye;
-        } else if ("Lime".equals(color)) {
-            return MaterialData.limeDye;
-        } else if ("Magenta".equals(color)) {
-            return MaterialData.magentaDye;
-        } else if ("Orange".equals(color)) {
-            return MaterialData.orangeDye;
-        } else if ("Pink".equals(color)) {
-            return MaterialData.pinkDye;
-        } else if ("Purple".equals(color)) {
-            return MaterialData.purpleDye;
-        } else if ("Red".equals(color)) {
-            return MaterialData.roseRed;
-        } else if ("White".equals(color)) {
-            return MaterialData.boneMeal;
-        } else if ("Yellow".equals(color)) {
-            return MaterialData.dandelionYellow;
+        for (Material material : materials2.values()) {
+            makeRecipes(material.getBlock(), material.getSourceBlock(), material.getColor().getItem());
         }
-        return MaterialData.inkSac;
     }
 }

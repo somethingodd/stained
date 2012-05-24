@@ -14,26 +14,28 @@
 package info.somethingodd.stained.block;
 
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
-import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.material.Block;
 import org.getspout.spoutapi.material.MaterialData;
 import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class StainedGlowstone extends GenericCubeCustomBlock {
+public class StainedBlock extends GenericCubeCustomBlock {
+    private Block sourceBlock;
+
     @Override
     public int getBlockId() {
-        return MaterialData.glowstoneBlock.getRawId();
+        return sourceBlock.getRawId();
     }
 
-    public StainedGlowstone(Plugin plugin, String name, String texture, int textureSize) {
+    public StainedBlock(Plugin plugin, String name, String texture, int textureSize, Block sourceBlock) {
         super(plugin, name, texture, textureSize);
-        setFriction(MaterialData.glowstoneBlock.getFriction());
-        setHardness(MaterialData.glowstoneBlock.getHardness());
-        setLightLevel(MaterialData.glowstoneBlock.getLightLevel());
-        setOpaque(MaterialData.glass.isOpaque());
-        setStepSound(MaterialData.glowstoneBlock.getStepSound());
+        this.sourceBlock = sourceBlock;
+        setFriction(sourceBlock.getFriction());
+        setHardness(sourceBlock.getHardness());
+        setLightLevel(sourceBlock.getLightLevel());
+        setOpaque(sourceBlock.isOpaque());
+        setStepSound(sourceBlock.getStepSound());
     }
 }

@@ -14,26 +14,29 @@
 package info.somethingodd.stained.block;
 
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
-import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.block.design.BlockDesign;
+import org.getspout.spoutapi.block.design.GenericBlockDesign;
+import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.material.MaterialData;
+import org.getspout.spoutapi.material.block.GenericBlock;
 import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class StainedGlowstone extends GenericCubeCustomBlock {
+public class StainedSlab extends GenericCuboidCustomBlock {
     @Override
     public int getBlockId() {
-        return MaterialData.glowstoneBlock.getRawId();
+        return MaterialData.stoneSlab.getRawId();
     }
 
-    public StainedGlowstone(Plugin plugin, String name, String texture, int textureSize) {
-        super(plugin, name, texture, textureSize);
-        setFriction(MaterialData.glowstoneBlock.getFriction());
-        setHardness(MaterialData.glowstoneBlock.getHardness());
-        setLightLevel(MaterialData.glowstoneBlock.getLightLevel());
+    public StainedSlab(Plugin plugin, String name, String texture, int textureSize) {
+        super(plugin, name, new GenericCuboidBlockDesign(plugin, texture, textureSize, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
+        setFriction(MaterialData.brick.getFriction());
+        setHardness(MaterialData.brick.getHardness());
+        setLightLevel(MaterialData.brick.getLightLevel());
         setOpaque(MaterialData.glass.isOpaque());
-        setStepSound(MaterialData.glowstoneBlock.getStepSound());
+        setStepSound(MaterialData.brick.getStepSound());
     }
 }

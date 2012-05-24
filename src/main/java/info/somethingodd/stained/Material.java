@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
+import org.getspout.spoutapi.material.MaterialData;
 import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
 import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
 import org.getspout.spoutapi.material.block.GenericCustomBlock;
@@ -48,28 +49,37 @@ public class Material implements Cloneable {
             this.color = color;
             this.sourceBlock = sourceBlock;
             this.materialType = materialType;
+            texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
             switch (materialType) {
                 case BLOCK:
-                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
-                    block = new StainedBlock(plugin, name, getFileName() + "-" + getColor().getFileName(), 16, sourceBlock);
+                    GenericCuboidBlockDesign design = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), design);
+                    //block = new StainedBlock(plugin, name, getFileName() + "-" + getColor().getFileName(), 16, sourceBlock);
                     break;
                 case SLAB:
-                    //texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 32, 16, 16);
-                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
                     //GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
                     //GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{1, 0, 0, 0, 0, 1}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
                     GenericCuboidBlockDesign bottom = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
                     GenericCuboidBlockDesign top = new GenericCuboidBlockDesign(plugin, texture, new int[]{0, 0, 0, 0, 0, 0}, 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
                     block = new GenericCustomBlock(plugin, name + " (top)", sourceBlock.isOpaque(), top);
+                    block.setFriction(sourceBlock.getFriction());
+                    block.setHardness(sourceBlock.getHardness());
+                    block.setLightLevel(sourceBlock.getLightLevel());
+                    block.setOpaque(sourceBlock.isOpaque());
+                    block.setStepSound(sourceBlock.getStepSound());
                     block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), bottom);
                     break;
                 case STAIRS:
-                    texture = new Texture(getPlugin(), getFileName() + "-" + getColor().getFileName(), 16, 16, 16);
-                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(texture));
+                    block = new GenericCustomBlock(plugin, name, sourceBlock.isOpaque(), new StairsDesign(plugin, texture));
                     break;
             }
+            block.setFriction(sourceBlock.getFriction());
+            block.setHardness(sourceBlock.getHardness());
+            block.setLightLevel(sourceBlock.getLightLevel());
+            block.setOpaque(sourceBlock.isOpaque());
+            block.setStepSound(sourceBlock.getStepSound());
         } catch (Exception e) {
-            plugin.getLogger().severe("Failure: name(" + name + "), fileName(" + fileName + "), color(" + color.toString() + "), sourceBlock(" + sourceBlock.toString() + "), materialType(" + materialType.toString() + ")");
+            plugin.getLogger().severe("Failure: " + this.toString());
             throw new ExceptionInInitializerError(e);
         }
     }

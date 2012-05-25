@@ -135,8 +135,8 @@ public class Stained extends JavaPlugin {
         // Textures - Blocks
         textures.put("Brick", "brick");
         textures.put("Cobblestone", "cobblestone");
-        textures.put("Cooblestone Slab", "cobblestone");
-        textures.put("Cooblestone Stairs", "cobblestone");
+        textures.put("Cobblestone Slab", "cobblestone");
+        textures.put("Cobblestone Stairs", "cobblestone");
         textures.put("Glass", "glass");
         textures.put("Glowstone", "glowstone");
         textures.put("Obsidian", "obsidian");

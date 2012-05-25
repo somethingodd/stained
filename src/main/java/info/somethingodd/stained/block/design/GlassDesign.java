@@ -13,8 +13,20 @@
  */
 package info.somethingodd.stained.block.design;
 
+import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
+import org.getspout.spoutapi.block.design.Texture;
+
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class GlassDesign {
+public class GlassDesign extends GenericCubeBlockDesign {
+    public GlassDesign(Plugin plugin, Texture texture) {
+        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0});
+    }
+
+    public GlassDesign(Plugin plugin, Texture texture, int[] textureId) {
+        super(plugin, texture, textureId);
+        setRenderPass(1);
+    }
 }

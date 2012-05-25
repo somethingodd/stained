@@ -116,7 +116,6 @@ public class Stained extends JavaPlugin {
         // Blocks
         blocks.put("Brick", MaterialData.brick);
         blocks.put("Cobblestone", MaterialData.cobblestone);
-        blocks.put("Glass", MaterialData.glass);
         blocks.put("Glowstone", MaterialData.glowstoneBlock);
         blocks.put("Obsidian", MaterialData.obsidian);
         blocks.put("Stone", MaterialData.stone);
@@ -151,6 +150,12 @@ public class Stained extends JavaPlugin {
         textures.put("Wooden Stairs", "wood");
         
         for (Color color : colors) {
+            getLogger().info("Adding " + color.getName() + " Glass");
+            materials.put(color.getName() + " Glass", new Material(this, color.getName() + " Glass", getTextureURL(textures.get("Glass") + "-" + color.getFileName()), color, MaterialData.glass, Material.MaterialType.GLASS));
+
+            getLogger().info("Adding " + color.getName() + " Glass Pane");
+            materials.put(color.getName() + " Glass Pane", new Material(this, color.getName() + " Glass Pane", getTextureURL(textures.get("Glass") + "-" + color.getFileName()), color, MaterialData.glassPane, Material.MaterialType.PANE));
+
             for (String name : blocks.keySet()) {
                 String fullName = color.getName() + " " + name;
                 getLogger().info("Adding " + fullName);

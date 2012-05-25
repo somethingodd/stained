@@ -14,11 +14,15 @@
 package info.somethingodd.stained;
 
 import info.somethingodd.stained.block.CubeBlock;
+import info.somethingodd.stained.block.GlassBlock;
+import info.somethingodd.stained.block.PaneBlock;
 import info.somethingodd.stained.block.SlabBlock;
 import info.somethingodd.stained.block.StairsBlock;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
+import org.getspout.spoutapi.material.Plant;
+import org.getspout.spoutapi.sound.SoundEffect;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
@@ -49,6 +53,12 @@ public class Material implements Cloneable {
             switch (materialType) {
                 case BLOCK:
                     block = new CubeBlock(plugin, name, texture, sourceBlock);
+                    break;
+                case GLASS:
+                    block = new GlassBlock(plugin, name, texture, sourceBlock);
+                    break;
+                case PANE:
+                    block = new PaneBlock(plugin, name, texture, sourceBlock);
                     break;
                 case SLAB:
                     block = new SlabBlock(plugin, name, texture, sourceBlock);
@@ -127,6 +137,8 @@ public class Material implements Cloneable {
 
     public enum MaterialType {
         BLOCK,
+        GLASS,
+        PANE,
         SLAB,
         STAIRS;
 

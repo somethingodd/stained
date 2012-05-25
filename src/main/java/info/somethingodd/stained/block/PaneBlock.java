@@ -14,15 +14,17 @@
 package info.somethingodd.stained.block;
 
 import info.somethingodd.stained.block.design.GlassDesign;
+import info.somethingodd.stained.block.design.PaneDesign;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
 import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class PaneBlock extends GenericCubeCustomBlock {
+public class PaneBlock extends GenericCuboidCustomBlock {
     private Block sourceBlock;
 
     @Override
@@ -35,12 +37,13 @@ public class PaneBlock extends GenericCubeCustomBlock {
     }
 
     public PaneBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, new GlassDesign(plugin, texture, textureId));
+        super(plugin, name, new PaneDesign(plugin, texture, textureId));
         this.sourceBlock = sourceBlock;
         setFriction(sourceBlock.getFriction());
         setHardness(sourceBlock.getHardness());
         setLightLevel(sourceBlock.getLightLevel());
         setOpaque(sourceBlock.isOpaque());
+        setRotate(true);
         setStepSound(sourceBlock.getStepSound());
     }
 }

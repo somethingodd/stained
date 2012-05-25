@@ -13,8 +13,20 @@
  */
 package info.somethingodd.stained.block.design;
 
+import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
+import org.getspout.spoutapi.block.design.Texture;
+
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class PaneDesign {
+public class PaneDesign extends GenericCuboidBlockDesign {
+    public PaneDesign(Plugin plugin, Texture texture) {
+        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0});
+    }
+
+    public PaneDesign(Plugin plugin, Texture texture, int[] textureId) {
+        super(plugin, texture, textureId, 0.0F, 0.0F, 0.4375F, 1.0F, 1.0F, 0.5625F);
+        setRenderPass(1);
+    }
 }

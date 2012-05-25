@@ -41,6 +41,7 @@ public class StairsBlock extends GenericCustomBlock {
         setHardness(sourceBlock.getHardness());
         setLightLevel(sourceBlock.getLightLevel());
         setOpaque(sourceBlock.isOpaque());
+        setRotate(true);
         setStepSound(sourceBlock.getStepSound());
     }
 }

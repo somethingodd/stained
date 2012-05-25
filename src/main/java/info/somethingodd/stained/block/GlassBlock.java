@@ -42,5 +42,6 @@ public class GlassBlock extends GenericCubeCustomBlock {
         setLightLevel(sourceBlock.getLightLevel());
         setOpaque(sourceBlock.isOpaque());
         setStepSound(sourceBlock.getStepSound());
+        setItemDrop(null);
     }
 }

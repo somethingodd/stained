@@ -164,8 +164,8 @@ public class Stained extends JavaPlugin {
             }
             for (String name : slabs.keySet()) {
                 String fullName = color.getName() + " " + name;
-                getLogger().info("Adding " + color.getName() + " " + name);
-                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, slabs.get(name), Material.MaterialType.SLAB));
+                //getLogger().info("Adding " + color.getName() + " " + name);
+                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, slabs.get(name), Material.MaterialType.SLAB));
             }
             for (String name : stairs.keySet()) {
                 String fullName = color.getName() + " " + name;

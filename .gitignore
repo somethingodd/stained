@@ -9,4 +9,4 @@
 # Imagemagick script
 *.ps1
 
-src/main/resources/textures/*.png
+src/main/resources/textures/*

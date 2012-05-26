@@ -4,7 +4,7 @@
     <inceptionYear>2011</inceptionYear>
     <groupId>info.somethingodd</groupId>
     <artifactId>stained</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>stained</name>
     <url>http://somethingodd.info/stained</url>
     <parent>
@@ -39,11 +39,6 @@
         </resources>
     </build>
     <dependencies>
-        <dependency>
-            <groupId>info.somethingodd</groupId>
-            <artifactId>odditem</artifactId>
-            <version>[0.9,0.10)</version>
-        </dependency>
         <dependency>
             <groupId>org.getspout</groupId>
             <artifactId>spoutpluginapi</artifactId>

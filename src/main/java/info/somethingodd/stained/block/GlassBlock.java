@@ -15,33 +15,18 @@ package info.somethingodd.stained.block;
 
 import info.somethingodd.stained.block.design.GlassDesign;
 import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class GlassBlock extends GenericCubeCustomBlock {
-    private Block sourceBlock;
+public class GlassBlock extends CubeBlock {
 
-    @Override
-    public int getBlockId() {
-        return sourceBlock.getRawId();    //To change body of overridden methods use File | Settings | File Templates.
+    public GlassBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block source) {
+        super(plugin, name, false, texture, textureId, source, new GlassDesign(plugin, texture, textureId));
     }
 
-    public GlassBlock(Plugin plugin, String name, Texture texture, Block sourceBlock) {
-        this(plugin, name, texture, new int[]{0, 0, 0, 0, 0, 0}, sourceBlock);
-    }
-
-    public GlassBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, new GlassDesign(plugin, texture, textureId));
-        this.sourceBlock = sourceBlock;
-        setFriction(sourceBlock.getFriction());
-        setHardness(sourceBlock.getHardness());
-        setLightLevel(sourceBlock.getLightLevel());
-        setOpaque(sourceBlock.isOpaque());
-        setStepSound(sourceBlock.getStepSound());
-        setItemDrop(null);
-    }
 }

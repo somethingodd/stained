@@ -4,13 +4,13 @@
     <inceptionYear>2011</inceptionYear>
     <groupId>info.somethingodd</groupId>
     <artifactId>stained</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>stained</name>
     <url>http://somethingodd.info/stained</url>
     <parent>
         <groupId>info.somethingodd</groupId>
-        <artifactId>somethingodd-parent</artifactId>
-        <version>1.0.0</version>
+        <artifactId>parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <build>
         <resources>
@@ -40,8 +40,13 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>info.somethingodd</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.getspout</groupId>
-            <artifactId>spoutpluginapi</artifactId>
+            <artifactId>spoutplugin</artifactId>
             <version>dev-SNAPSHOT</version>
         </dependency>
     </dependencies>

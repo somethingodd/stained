@@ -9,4 +9,8 @@
 # Imagemagick script
 *.ps1
 
+# Texture files
 src/main/resources/textures/*
+
+# Dolphin metadata
+.directory

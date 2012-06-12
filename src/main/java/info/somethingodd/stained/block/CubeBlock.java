@@ -13,34 +13,47 @@
  */
 package info.somethingodd.stained.block;
 
+import info.somethingodd.stained.block.design.CubeDesign;
 import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.block.design.BlockDesign;
 import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class CubeBlock extends GenericCubeCustomBlock {
-    private Block sourceBlock;
+public class CubeBlock extends GenericCustomBlock {
+    private Block source;
 
     @Override
     public int getBlockId() {
-        return sourceBlock.getRawId();
+        return source.getRawId();
     }
 
-    public CubeBlock(Plugin plugin, String name, Texture texture, Block sourceBlock) {
-        this(plugin, name, texture, new int[]{0, 0, 0, 0, 0, 0}, sourceBlock);
+    public CubeBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block source) {
+        this(plugin, name, true, texture, textureId, source);
     }
 
-    public CubeBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, new GenericCubeBlockDesign(plugin, texture, textureId));
-        this.sourceBlock = sourceBlock;
-        setFriction(sourceBlock.getFriction());
-        setHardness(sourceBlock.getHardness());
-        setLightLevel(sourceBlock.getLightLevel());
-        setOpaque(sourceBlock.isOpaque());
-        setStepSound(sourceBlock.getStepSound());
+    public CubeBlock(Plugin plugin, String name, boolean isOpaque, Texture texture, int[] textureId, Block source) {
+        this(plugin, name, isOpaque, texture, textureId, source, new GenericCubeBlockDesign(plugin, texture, textureId));
     }
+
+    public CubeBlock(Plugin plugin, String name, boolean isOpaque, Texture texture, int[] textureId, Block source, BlockDesign blockDesign) {
+        super(plugin, name, isOpaque, blockDesign);
+        this.source = source;
+        setFriction(source.getFriction());
+        setHardness(source.getHardness());
+        setLightLevel(source.getLightLevel());
+        setOpaque(source.isOpaque());
+        setStepSound(source.getStepSound());
+    }
+
+    public void setSource(Block source) {
+        this.source = source;
+    }
+
+
 }

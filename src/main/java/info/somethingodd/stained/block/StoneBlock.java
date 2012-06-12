@@ -11,22 +11,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package info.somethingodd.stained.block.design;
+package info.somethingodd.stained.block;
 
+import info.somethingodd.stained.Color;
+import info.somethingodd.stained.Stained;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.inventory.SpoutItemStack;
+import org.getspout.spoutapi.material.Block;
+
+import java.util.Random;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class PaneDesign extends GenericCuboidBlockDesign {
-    public PaneDesign(Plugin plugin, Texture texture) {
-        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0});
-    }
+public class StoneBlock extends CubeBlock {
 
-    public PaneDesign(Plugin plugin, Texture texture, int[] textureId) {
-        super(plugin, texture, textureId, 0.0F, 0.0F, 0.4375F, 1.0F, 1.0F, 0.5625F);
-        setRenderPass(1);
+    public StoneBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block source, Color color) {
+        super(plugin, name, texture, textureId, source);
+        setItemDrop(new SpoutItemStack(((Stained) plugin).getMaterials().get("Cobblestone").getBlock(color), 1));
     }
 }

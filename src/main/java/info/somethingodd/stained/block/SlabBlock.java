@@ -14,33 +14,61 @@
 package info.somethingodd.stained.block;
 
 import info.somethingodd.stained.block.design.SlabDesign;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.SpoutWorld;
+import org.getspout.spoutapi.block.SpoutBlock;
+import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
+import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.Block;
+import org.getspout.spoutapi.material.CustomBlock;
 import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class SlabBlock extends GenericCuboidCustomBlock {
-    private Block sourceBlock;
+public class SlabBlock extends GenericCustomBlock {
+    private Block source;
+
+    private Block full;
+    private Block top;
 
     @Override
     public int getBlockId() {
-        return sourceBlock.getRawId();    //To change body of overridden methods use File | Settings | File Templates.
+        return source.getRawId();
     }
 
-    public SlabBlock(Plugin plugin, String name, Texture texture, Block sourceBlock) {
-        this(plugin, name, texture, new int[]{0, 0, 0, 0, 0, 0}, sourceBlock);
+    public SlabBlock(Plugin plugin, String name, Texture texture, int[] textureIdBottom, int[] textureIdDouble, int[] textureIdTop, Block source) {
+        super(plugin, name, true, new SlabDesign(plugin, texture, textureIdBottom, SlabDesign.Slab.BOTTOM));
+        full = new GenericCustomBlock(plugin, name, true, new SlabDesign(plugin, texture, textureIdDouble, SlabDesign.Slab.DOUBLE));
+        top = new GenericCustomBlock(plugin, name, true, new SlabDesign(plugin, texture, textureIdTop, SlabDesign.Slab.TOP));
+
+        this.source = source;
+        setFriction(source.getFriction());
+        setHardness(source.getHardness());
+        setOpaque(source.isOpaque());
+        setStepSound(source.getStepSound());
+
+        full.setFriction(source.getFriction());
+        full.setHardness(source.getHardness());
+        full.setOpaque(source.isOpaque());
+        full.setStepSound(source.getStepSound());
+        ((CustomBlock) full).setItemDrop(new SpoutItemStack(this, 2));
+
+        top.setFriction(source.getFriction());
+        top.setHardness(source.getHardness());
+        top.setOpaque(source.isOpaque());
+        top.setStepSound(source.getStepSound());
+        ((CustomBlock) top).setItemDrop(new SpoutItemStack(this, 1));
     }
 
-    public SlabBlock(Plugin plugin, String name, Texture texture, int[] textureId, Block sourceBlock) {
-        super(plugin, name, new SlabDesign(plugin, texture, textureId));
-        this.sourceBlock = sourceBlock;
-        setFriction(sourceBlock.getFriction());
-        setHardness(sourceBlock.getHardness());
-        setLightLevel(sourceBlock.getLightLevel());
-        setOpaque(sourceBlock.isOpaque());
-        setStepSound(sourceBlock.getStepSound());
+    public Block getFull() {
+        return full;
+    }
+
+    public Block getTop() {
+        return top;
     }
 }

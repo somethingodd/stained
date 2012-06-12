@@ -14,18 +14,112 @@
 package info.somethingodd.stained.block.design;
 
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
+import org.getspout.spoutapi.block.design.GenericBlockDesign;
+import org.getspout.spoutapi.block.design.Quad;
+import org.getspout.spoutapi.block.design.SubTexture;
 import org.getspout.spoutapi.block.design.Texture;
+
+import java.util.Arrays;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class SlabDesign extends GenericCuboidBlockDesign {
-    public SlabDesign(Plugin plugin, Texture texture) {
-        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0});
+public class SlabDesign extends GenericBlockDesign {
+
+    public SlabDesign(Plugin plugin, Texture texture, int[] textureId, Slab slab) {
+        SubTexture topt = new SubTexture(texture, textureId[0] % 32, textureId[0] / 32, 16);
+        SubTexture side1 = new SubTexture(texture, textureId[1] % 32, textureId[1] / 32, 16);
+        SubTexture side2 = new SubTexture(texture, textureId[2] % 32, textureId[2] / 32, 16);
+        SubTexture side3= new SubTexture(texture, textureId[3] % 32, textureId[3] / 32, 16);
+        SubTexture side4 = new SubTexture(texture, textureId[4] % 32, textureId[4] / 32, 16);
+        SubTexture bottomt = new SubTexture(texture, textureId[5] % 32, textureId[5] / 32, 16);
+
+        setMinBrightness(0.0F);
+        setMaxBrightness(1.0F);
+        setTexture(plugin, texture);
+        setQuadNumber(6);
+
+        Quad top = new Quad(0, topt);
+        Quad bottom = new Quad(5, bottomt);
+        Quad front = new Quad(1, side1);
+        Quad right = new Quad(2, side2);
+        Quad back = new Quad(3, side3);
+        Quad left = new Quad(4, side4);
+        if (slab.equals(Slab.DOUBLE)) {
+            setBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            top(true, top);
+            bottom(false, bottom);
+            CubeDesign.front(front);
+            CubeDesign.right(right);
+            CubeDesign.back(back);
+            CubeDesign.left(left);
+        } else {
+            if (slab.equals(Slab.TOP)) {
+                setBoundingBox(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+            } else /*if (slab.equals(Slab.BOTTOM))*/ {
+                setBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+            }
+            top(slab.equals(Slab.TOP), top);
+            bottom(slab.equals(Slab.TOP), bottom);
+            front(slab.equals(Slab.TOP), front);
+            right(slab.equals(Slab.TOP), right);
+            back(slab.equals(Slab.TOP), back);
+            left(slab.equals(Slab.TOP), left);
+        }
+
+        setQuad(top);
+        setQuad(front);
+        setQuad(right);
+        setQuad(back);
+        setQuad(left);
+        setQuad(bottom);
     }
 
-    public SlabDesign(Plugin plugin, Texture texture, int[] textureId) {
-        super(plugin, texture, textureId, 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+    public static void top(boolean high, Quad quad) {
+        quad.addVertex(0, 0.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(1, 1.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(2, 1.0F, (high ? 1.0F : 0.5F), 0.0F);
+        quad.addVertex(3, 0.0F, (high ? 1.0F : 0.5F), 0.0F);
+    }
+
+    public static void front(boolean high, Quad quad) {
+        quad.addVertex(0, 0.0F, (high ? 1.0F : 0.5F), 0.0F);
+        quad.addVertex(1, 1.0F, (high ? 1.0F : 0.5F), 0.0F);
+        quad.addVertex(2, 1.0F, (high ? 0.5F : 0.0F), 0.0F);
+        quad.addVertex(3, 0.0F, (high ? 0.5F : 0.0F), 0.0F);
+    }
+
+    public static void right(boolean high, Quad quad) {
+        quad.addVertex(0, 1.0F, (high ? 1.0F : 0.5F), 0.0F);
+        quad.addVertex(1, 1.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(2, 1.0F, (high ? 0.5F : 0.0F), 1.0F);
+        quad.addVertex(3, 1.0F, (high ? 0.5F : 0.0F), 0.0F);
+    }
+
+    public static void back(boolean high, Quad quad) {
+        quad.addVertex(0, 0.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(1, 1.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(2, 1.0F, (high ? 0.5F : 0.0F), 1.0F);
+        quad.addVertex(3, 0.0F, (high ? 0.5F : 0.0F), 1.0F);
+    }
+
+    public static void left(boolean high, Quad quad) {
+        quad.addVertex(0, 0.0F, (high ? 1.0F : 0.5F), 0.0F);
+        quad.addVertex(1, 0.0F, (high ? 1.0F : 0.5F), 1.0F);
+        quad.addVertex(2, 0.0F, (high ? 0.5F : 0.0F), 1.0F);
+        quad.addVertex(3, 0.0F, (high ? 0.5F : 0.0F), 0.0F);
+    }
+
+    public static void bottom(boolean high, Quad quad) {
+        quad.addVertex(0, 0.0F, (high ? 0.5F : 0.0F), 1.0F);
+        quad.addVertex(1, 1.0F, (high ? 0.5F : 0.0F), 1.0F);
+        quad.addVertex(2, 1.0F, (high ? 0.5F : 0.0F), 0.0F);
+        quad.addVertex(3, 0.0F, (high ? 0.5F : 0.0F), 0.0F);
+    }
+
+    public enum Slab {
+        BOTTOM,
+        DOUBLE,
+        TOP
     }
 }

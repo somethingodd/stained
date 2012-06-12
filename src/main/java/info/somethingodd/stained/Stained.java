@@ -14,31 +14,33 @@
 
 package info.somethingodd.stained;
 
+import info.somethingodd.stained.block.SlabBlock;
+import info.somethingodd.stained.block.design.CubeDesign;
+import info.somethingodd.stained.block.design.SlabDesign;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.block.design.GenericCuboidBlockDesign;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.inventory.SpoutShapedRecipe;
 import org.getspout.spoutapi.inventory.SpoutShapelessRecipe;
-import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.Item;
+import org.getspout.spoutapi.material.CustomBlock;
+import org.getspout.spoutapi.material.CustomItem;
 import org.getspout.spoutapi.material.MaterialData;
+import org.getspout.spoutapi.material.block.GenericCubeCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCuboidCustomBlock;
+import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
 public class Stained extends JavaPlugin {
-    private final Map<String, Block> blocks = new HashMap<String, Block>();
     private final Set<Color> colors = new HashSet<Color>();
-    private final Map<String, Block> slabs = new HashMap<String, Block>();
-    private final Map<String, Block> stairs = new HashMap<String, Block>();
-    private final Map<String, String> textures = new HashMap<String, String>();
+    private final Map<String, Item> items = new HashMap<String, Item>();
     private final Map<String, Material> materials = new HashMap<String, Material>();
 
     @Override
@@ -50,131 +52,122 @@ public class Stained extends JavaPlugin {
     public void onDisable() {
     }
 
-    public Map<String, Block> getBlocks() {
-        return Collections.unmodifiableMap(blocks);
-    }
-
     public Set<Color> getColors() {
         return Collections.unmodifiableSet(colors);
+    }
+
+    public Map<String, Item> getItems() {
+        return Collections.unmodifiableMap(items);
     }
 
     public Map<String, Material> getMaterials() {
         return Collections.unmodifiableMap(materials);
     }
 
-    public Map<String, Block> getSlabs() {
-        return Collections.unmodifiableMap(slabs);
+    public String getTexture(String name) {
+        return "http://somethingodd.info/textures/" + name + ".png";
     }
 
-    public Map<String, Block> getStairs() {
-        return Collections.unmodifiableMap(stairs);
-    }
-
-    public Map<String, String> getTextures() {
-        return Collections.unmodifiableMap(textures);
-    }
-
-    protected String getTextureURL(String key) {
-        return "http://somethingodd.info/textures/" + key + ".png";
-    }
-
-    protected Texture getTexture(String key) {
-        return new Texture(this, "http://somethingodd.info/textures/" + key + ".png", 16, 16, 16);
-    }
-
-    public void makeRecipes(Block block, Block source, Item ink) {
-        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(block, 2));
+    public void makeRecipes(org.getspout.spoutapi.material.Material result, org.getspout.spoutapi.material.Material source, org.getspout.spoutapi.material.Material ink) {
+        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(result, 2));
         recipe.shape("ABA");
         recipe.setIngredient('A', source);
         recipe.setIngredient('B', ink);
         SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
         SpoutShapelessRecipe unrecipe = new SpoutShapelessRecipe(new SpoutItemStack(source, 1));
-        unrecipe.addIngredient(1, block);
-        unrecipe.addIngredient(1, MaterialData.waterBucket);
+        unrecipe.addIngredient(result);
+        unrecipe.addIngredient(MaterialData.waterBucket);
         SpoutManager.getMaterialManager().registerSpoutRecipe(unrecipe);
     }
 
+    public void makeGlowstoneRecipes(org.getspout.spoutapi.material.Material result, org.getspout.spoutapi.material.Material source) {
+        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(result, 1));
+        recipe.shape("AA", "AA");
+        recipe.setIngredient('A', source);
+        SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
+    }
+
+    public void makeSlabRecipe(org.getspout.spoutapi.material.Material result, org.getspout.spoutapi.material.Material source) {
+        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(result, 6));
+        recipe.shape("AAA");
+        recipe.setIngredient('A', source);
+        SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
+    }
+
+    public void makeStairsRecipe(org.getspout.spoutapi.material.Material result, org.getspout.spoutapi.material.Material source) {
+        SpoutShapedRecipe recipe = new SpoutShapedRecipe(new SpoutItemStack(result, 6));
+        recipe.shape("AAA");
+        recipe.setIngredient('A', source);
+        SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
+    }
+
     public void setup() {
-        // Inks
-        colors.add(new Color("Black", "black", MaterialData.inkSac));
-        colors.add(new Color("Blue", "blue", MaterialData.lapisLazuli));
-        colors.add(new Color("Brown", "brown", MaterialData.cocoaBeans));
-        colors.add(new Color("Cyan", "cyan", MaterialData.cyanDye));
-        colors.add(new Color("Gray", "gray", MaterialData.grayDye));
-        colors.add(new Color("Green", "green", MaterialData.cactusGreen));
-        colors.add(new Color("Light Blue", "lightblue", MaterialData.lightBlueDye));
-        colors.add(new Color("Light Gray", "lightgray", MaterialData.lightGrayDye));
-        colors.add(new Color("Lime", "lime", MaterialData.limeDye));
-        colors.add(new Color("Magenta", "magenta", MaterialData.magentaDye));
-        colors.add(new Color("Orange", "orange", MaterialData.orangeDye));
-        colors.add(new Color("Pink", "pink", MaterialData.pinkDye));
-        colors.add(new Color("Purple", "purple", MaterialData.purpleDye));
-        colors.add(new Color("Red", "red", MaterialData.roseRed));
-        colors.add(new Color("White", "white", MaterialData.boneMeal));
-        colors.add(new Color("Yellow", "yellow", MaterialData.dandelionYellow));
+        Material.setTexture(new Texture(this, "http://somethingodd.info/textures/stained.png", 512, 512, 16));
 
-        // Blocks
-        blocks.put("Brick", MaterialData.brick);
-        blocks.put("Cobblestone", MaterialData.cobblestone);
-        blocks.put("Glowstone", MaterialData.glowstoneBlock);
-        blocks.put("Obsidian", MaterialData.obsidian);
-        blocks.put("Stone", MaterialData.stone);
-        blocks.put("Stone Brick", MaterialData.stoneBricks);
-        blocks.put("Wood", MaterialData.wood);
+        colors.add(new Color("Black",  MaterialData.inkSac, 0));
+        colors.add(new Color("Blue", MaterialData.lapisLazuli, 1));
+        colors.add(new Color("Brown", MaterialData.cocoaBeans, 2));
+        colors.add(new Color("Cyan", MaterialData.cyanDye, 3));
+        colors.add(new Color("Gray", MaterialData.grayDye, 4));
+        colors.add(new Color("Green", MaterialData.cactusGreen, 5));
+        colors.add(new Color("Light Blue", MaterialData.lightBlueDye, 6));
+        colors.add(new Color("Light Gray", MaterialData.lightGrayDye, 7));
+        colors.add(new Color("Lime", MaterialData.limeDye, 8));
+        colors.add(new Color("Magenta", MaterialData.magentaDye, 9));
+        colors.add(new Color("Orange", MaterialData.orangeDye, 10));
+        colors.add(new Color("Pink", MaterialData.pinkDye, 11));
+        colors.add(new Color("Purple", MaterialData.purpleDye, 12));
+        colors.add(new Color("Red", MaterialData.roseRed, 13));
+        colors.add(new Color("White", MaterialData.boneMeal, 14));
+        colors.add(new Color("Yellow", MaterialData.dandelionYellow, 15));
 
-        slabs.put("Cobblestone Slab", MaterialData.cobblestoneSlab);
-        slabs.put("Stone Brick Slab", MaterialData.stoneBrickSlab);
-        slabs.put("Stone Slab", MaterialData.stoneSlab);
-        slabs.put("Wooden Slab", MaterialData.woodenSlab);
+        /*colors.add(new Color("Black",  MaterialData.inkSac, 23));
+        colors.add(new Color("Blue", MaterialData.lapisLazuli, 22));
+        colors.add(new Color("Brown", MaterialData.cocoaBeans, 21));
+        colors.add(new Color("Cyan", MaterialData.cyanDye, 20));
+        colors.add(new Color("Gray", MaterialData.grayDye, 19));
+        colors.add(new Color("Green", MaterialData.cactusGreen, 18));
+        colors.add(new Color("Light Blue", MaterialData.lightBlueDye, 17));
+        colors.add(new Color("Light Gray", MaterialData.lightGrayDye, 16));
+        colors.add(new Color("Lime", MaterialData.limeDye, 15));
+        colors.add(new Color("Magenta", MaterialData.magentaDye, 14));
+        colors.add(new Color("Orange", MaterialData.orangeDye, 13));
+        colors.add(new Color("Pink", MaterialData.pinkDye, 12));
+        colors.add(new Color("Purple", MaterialData.purpleDye, 11));
+        colors.add(new Color("Red", MaterialData.roseRed, 10));
+        colors.add(new Color("White", MaterialData.boneMeal, 9));
+        colors.add(new Color("Yellow", MaterialData.dandelionYellow, 8));*/
 
-        stairs.put("Cobblestone Stairs", MaterialData.cobblestoneStairs);
-        stairs.put("Stone Brick Stairs", MaterialData.stoneBrickStairs);
-        stairs.put("Wooden Stairs", MaterialData.woodenStairs);
+        items.put("Glowstone Dust", new Item(this, "Glowstone Dust", MaterialData.glowstoneDust));
 
-        // Textures - Blocks
-        textures.put("Brick", "brick");
-        textures.put("Cobblestone", "cobblestone");
-        textures.put("Cobblestone Slab", "cobblestone");
-        textures.put("Cobblestone Stairs", "cobblestone");
-        textures.put("Glass", "glass");
-        textures.put("Glass Pane", "glass");
-        textures.put("Glowstone", "glowstone");
-        textures.put("Obsidian", "obsidian");
-        textures.put("Stone", "stone");
-        textures.put("Stone Brick", "stonebrick");
-        textures.put("Stone Brick Slab", "stonebrick");
-        textures.put("Stone Brick Stairs", "stonebrick");
-        textures.put("Stone Slab", "stone");
-        textures.put("Stone Stairs", "stone");
-        textures.put("Wood", "wood");
-        textures.put("Wooden Slab", "wood");
-        textures.put("Wooden Stairs", "wood");
-        
+        materials.put("Brick", new Material(this, "Brick", MaterialData.brick));
+        materials.put("Brick Slab", new Material(this, "Brick Slab", MaterialData.brickSlab, Material.BlockType.SLAB));
+        materials.put("Cobblestone", new Material(this, "Cobblestone", MaterialData.cobblestone));
+        materials.put("Cobblestone Slab", new Material(this, "Cobblestone Slab", MaterialData.cobblestoneSlab, Material.BlockType.SLAB));
+        materials.put("Glass", new Material(this, "Glass", MaterialData.glass, Material.BlockType.GLASS));
+        materials.put("Glowstone", new Material(this, "Glowstone", MaterialData.glowstoneBlock, Material.BlockType.GLOWSTONE));
+        materials.put("Obsidian", new Material(this, "Obsidian", MaterialData.obsidian));
+        materials.put("Sandstone", new Material(this, "Sandstone", MaterialData.sandstone));
+        materials.put("Sandstone Slab", new Material(this, "Sandstone Slab", MaterialData.sandstoneSlab, Material.BlockType.SLAB));
+        materials.put("Stone", new Material(this, "Stone", MaterialData.stone, Material.BlockType.STONE));
+        materials.put("Stone Slab", new Material(this, "Stone Slab", MaterialData.stoneSlab, Material.BlockType.SLAB));
+        materials.put("Stone Brick", new Material(this, "Stone Brick", MaterialData.stoneBricks));
+        materials.put("Stone Brick Slab", new Material(this, "Stone Brick Slab", MaterialData.stoneBrickSlab, Material.BlockType.SLAB));
+        materials.put("Wood", new Material(this, "Wood", MaterialData.wood));
+        materials.put("Wooden Slab", new Material(this, "Wooden Slab", MaterialData.woodenSlab, Material.BlockType.SLAB));
+
         for (Color color : colors) {
-            getLogger().info("Adding " + color.getName() + " Glass");
-            materials.put(color.getName() + " Glass", new Material(this, color.getName() + " Glass", getTextureURL(textures.get("Glass") + "-" + color.getFileName()), color, MaterialData.glass, Material.MaterialType.GLASS));
-
-            //getLogger().info("Adding " + color.getName() + " Glass Pane");
-            //materials.put(color.getName() + " Glass Pane", new Material(this, color.getName() + " Glass Pane", getTextureURL(textures.get("Glass") + "-" + color.getFileName()), color, MaterialData.glassPane, Material.MaterialType.PANE));
-
-            for (String name : blocks.keySet()) {
-                String fullName = color.getName() + " " + name;
-                getLogger().info("Adding " + fullName);
-                materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, blocks.get(name)));
+            for (Item item : items.values()) {
+                //int id = SpoutManager.getMaterialManager().registerCustomItemName(this, color.getName() + " " + item.getName());
+                CustomItem custom = item.makeItem(color);
+                makeRecipes(custom, item.getSource(), color.getSource());
             }
-            for (String name : slabs.keySet()) {
-                String fullName = color.getName() + " " + name;
-                //getLogger().info("Adding " + color.getName() + " " + name);
-                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, slabs.get(name), Material.MaterialType.SLAB));
+            for (Material material : materials.values()) {
+                //int id = SpoutManager.getMaterialManager().registerCustomItemName(this, color.getName() + " " + material.getName());
+                CustomBlock custom = material.makeBlock(color);
+                makeRecipes(custom, material.getSource(), color.getSource());
             }
-            for (String name : stairs.keySet()) {
-                String fullName = color.getName() + " " + name;
-                //getLogger().info("Adding " + fullName);
-                //materials.put(fullName, new Material(this, fullName, getTextureURL(textures.get(name) + "-" + color.getFileName()), color, stairs.get(name), Material.MaterialType.STAIRS));
-            }
-        }
-        for (Material material : materials.values()) {
-            makeRecipes(material.getBlock(), material.getSourceBlock(), material.getColor().getItem());
+            makeGlowstoneRecipes(materials.get("Glowstone").getBlock(color), items.get("Glowstone Dust").getItem(color));
         }
     }
 }

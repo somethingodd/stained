@@ -13,138 +13,143 @@
  */
 package info.somethingodd.stained;
 
-import info.somethingodd.stained.block.CubeBlock;
-import info.somethingodd.stained.block.GlassBlock;
-import info.somethingodd.stained.block.PaneBlock;
-import info.somethingodd.stained.block.SlabBlock;
-import info.somethingodd.stained.block.StairsBlock;
+import info.somethingodd.stained.block.*;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.block.design.Texture;
 import org.getspout.spoutapi.material.Block;
-import org.getspout.spoutapi.material.Plant;
-import org.getspout.spoutapi.sound.SoundEffect;
+import org.getspout.spoutapi.material.CustomBlock;
+import org.getspout.spoutapi.material.MaterialData;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class Material implements Cloneable {
+public class Material {
     private Plugin plugin;
     private String name;
-    private String fileName;
-    private Block sourceBlock;
-    private MaterialType materialType;
-    private Texture texture;
-    private Block block;
-    private Color color;
+    private Block source;
+    private TextureCoordinates.TextureCoordinate textureCoordinate;
+    private BlockType blockType;
+    private final Map<Color, CustomBlock> blocks = new HashMap<Color, CustomBlock>();
+    private static Texture texture;
 
-    public Material(Plugin plugin, String name, String fileName, Color color, Block sourceBlock) {
-        this(plugin, name, fileName, color, sourceBlock, MaterialType.BLOCK);
+    /**
+     * @param plugin Plugin owning block
+     * @param name Base name of new block
+     * @param source Base block for non-spout clients
+     */
+    public Material(Plugin plugin, String name, Block source) {
+        this(plugin, name, source, BlockType.CUBE);
     }
 
-    public Material(Plugin plugin, String name, String fileName, Color color, Block sourceBlock, MaterialType materialType) {
-        try {
-            this.plugin = plugin;
-            this.name = name;
-            this.fileName = fileName;
-            this.color = color;
-            this.sourceBlock = sourceBlock;
-            this.materialType = materialType;
-            texture = new Texture(plugin, fileName, 16, 16, 16);
-            switch (materialType) {
-                case BLOCK:
-                    block = new CubeBlock(plugin, name, texture, sourceBlock);
-                    break;
-                case GLASS:
-                    block = new GlassBlock(plugin, name, texture, sourceBlock);
-                    break;
-                case PANE:
-                    block = new PaneBlock(plugin, name, texture, sourceBlock);
-                    break;
-                case SLAB:
-                    block = new SlabBlock(plugin, name, texture, sourceBlock);
-                    break;
-                case STAIRS:
-                    block = new StairsBlock(plugin, name, texture, sourceBlock);
-                    break;
-            }
-        } catch (Exception e) {
-            plugin.getLogger().severe("Failure: " + this.toString());
-            throw new ExceptionInInitializerError(e);
-        }
+    /**
+     * @param plugin Plugin owning block
+     * @param name Base name of new block
+     * @param source Base block for non-spout clients
+     * @param blockType Type of block
+     */
+    public Material(Plugin plugin, String name, Block source, BlockType blockType) {
+        this.plugin = plugin;
+        this.name = name;
+        this.source = source;
+        this.blockType = blockType;
+        textureCoordinate = TextureCoordinates.getTextureCoordinate(source);
     }
 
-    public Plugin getPlugin() {
-        return plugin;
+    public static void setTexture(Texture texture) {
+        Material.texture = texture;
     }
+
+    public static Texture getTexture() {
+        return texture;
+    }
+
 
     public String getName() {
         return name;
     }
 
-    public String getFileName() {
-        return fileName;
+    public org.getspout.spoutapi.material.Material getSource() {
+        return source;
     }
 
-    public Block getSourceBlock() {
-        return sourceBlock;
+    public Map<Color, CustomBlock> getBlocks() {
+        return Collections.unmodifiableMap(blocks);
     }
 
-    public MaterialType getMaterialType() {
-        return materialType;
+    public CustomBlock getBlock(Color color) {
+        return blocks.get(color);
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public Block getBlock() {
+    public CustomBlock makeBlock(Color color) {
+        CustomBlock block;
+        String name = color.getName() + " " + getName();
+        plugin.getLogger().info("Adding " + name);
+        int[] textureId = textureIdForColor(color, textureCoordinate.getTextureId());
+        plugin.getLogger().info("tid: " + Arrays.toString(textureId));
+        if (BlockType.GLASS.equals(blockType)) {
+            block = new GlassBlock(plugin, name, texture, textureId, source);
+        } else if (BlockType.GLOWSTONE.equals(blockType)) {
+            block = new GlowstoneBlock(plugin, name, texture, textureId, source, color);
+        } else if (BlockType.OBSIDIAN.equals(blockType)) {
+            block = new ObsidianBlock(plugin, name, texture, textureId, source, color);
+        } else if (BlockType.SLAB.equals(blockType)) {
+            int[] textureIdLow = textureIdForColor(color, textureCoordinate.getTextureIdLow());
+            int[] textureIdHigh = textureIdForColor(color, textureCoordinate.getTextureIdHigh());
+            plugin.getLogger().info("tidL: " + Arrays.toString(textureIdLow));
+            plugin.getLogger().info("tidH: " + Arrays.toString(textureIdHigh));
+            block = new SlabBlock(plugin, name, texture, textureIdLow, textureId, textureIdHigh, source);
+        } else if (BlockType.STONE.equals(blockType)) {
+            block = new StoneBlock(plugin, name, texture, textureId, source, color);
+        } else {
+            block = new CubeBlock(plugin, name, texture, textureId, source);
+        }
+        blocks.put(color, block);
         return block;
     }
 
-    public Texture getTexture() {
-        return texture;
+    public int[] textureIdForColor(Color color, int[] textureId) {
+        int rowSize = getTexture().getWidth() / 16;
+        int[] coloredTextureId = new int[textureId.length];
+        for (int i = 0; i < textureId.length; i++) {
+            coloredTextureId[i] = textureId[i] + (rowSize * color.getRow());
+        }
+        return coloredTextureId;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Material{");
+        sb.append("plugin: ").append(plugin.toString()).append(", ");
         sb.append("name: \"").append(name).append("\", ");
-        sb.append("fileName: \"").append(fileName).append("\", ");
-        sb.append("color: ").append(color.toString()).append(", ");
-        sb.append("sourceBlock: ").append(sourceBlock.toString()).append(", ");
-        sb.append("materialType: ").append(materialType.toString()).append("}");
+        sb.append("source: ").append(source.toString()).append(", ");
+        sb.append("textureCoordinate: ").append(textureCoordinate.toString()).append(", ");
+        sb.append("blockType: ").append(blockType.name()).append("}");
         return sb.toString();
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + fileName.hashCode() + sourceBlock.hashCode();
+        return name.hashCode() + source.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Material)) return false;
         if (!getName().equals(((Material) obj).getName())) return false;
-        if (!getFileName().equals(((Material) obj).getFileName())) return false;
-        if (!getSourceBlock().equals(((Material) obj).getSourceBlock())) return false;
-        return true;
+        return (getSource().equals(((Material) obj).getSource()));
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return new Material(getPlugin(), getName(), getFileName(), getColor(), getSourceBlock(), getMaterialType());
-    }
-
-    public enum MaterialType {
-        BLOCK,
+    public enum BlockType {
+        CUBE,
         GLASS,
-        PANE,
-        SLAB,
-        STAIRS;
-
-        @Override
-        public String toString() {
-            return "MaterialType{" + this.name() + "}";
-        }
+        GLOWSTONE,
+        OBSIDIAN,
+        STONE,
+        SLAB
     }
 }

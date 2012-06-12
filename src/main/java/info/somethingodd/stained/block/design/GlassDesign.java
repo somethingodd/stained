@@ -20,11 +20,7 @@ import org.getspout.spoutapi.block.design.Texture;
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class GlassDesign extends GenericCubeBlockDesign {
-    public GlassDesign(Plugin plugin, Texture texture) {
-        this(plugin, texture, new int[]{0, 0, 0, 0, 0, 0});
-    }
-
+public class GlassDesign extends CubeDesign {
     public GlassDesign(Plugin plugin, Texture texture, int[] textureId) {
         super(plugin, texture, textureId);
         setRenderPass(1);

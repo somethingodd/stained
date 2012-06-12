@@ -13,59 +13,52 @@
  */
 package info.somethingodd.stained;
 
-import org.getspout.spoutapi.material.Item;
+import org.getspout.spoutapi.material.Material;
 
 /**
  * @author Gordon Pettey (petteyg359@gmail.com)
  */
-public class Color implements Cloneable {
+public class Color {
     private String name;
-    private String fileName;
-    private Item item;
+    private Material source;
+    private int row;
 
-    public Color(String name, String fileName, Item item) {
+    public Color(String name, Material source, int row) {
         this.name = name;
-        this.fileName = fileName;
-        this.item = item;
-   }
+        this.source = source;
+        this.row = row;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getFileName() {
-        return fileName;
+    public Material getSource() {
+        return source;
     }
 
-    public Item getItem() {
-        return item;
+    public int getRow() {
+        return row;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Color{");
         sb.append("name: \"").append(name).append("\", ");
-        sb.append("fileName: \"").append(fileName).append("\", ");
-        sb.append("item: ").append(item.toString()).append("}");
+        sb.append("source: ").append(source.toString()).append(", ");
+        sb.append("row: ").append(row).append("}");
         return sb.toString();
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + fileName.hashCode() + item.hashCode();
+        return name.hashCode() + source.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Color)) return false;
         if (!getName().equals(((Color) obj).getName())) return false;
-        if (!getFileName().equals(((Color) obj).getFileName())) return false;
-        if (!getItem().equals(((Color) obj).getItem())) return false;
-        return true;
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return new Color(getName(), getFileName(), getItem());
+        return (getSource().equals(((Color) obj).getSource()));
     }
 }
